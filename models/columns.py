@@ -1,304 +1,364 @@
-def parse_acc_now_delinq():
+def parse_acc_now_delinq(value):
     pass
-def parse_acc_open_past_24mths():
+def parse_acc_open_past_24mths(value):
     pass
-def parse_addr_state():
+def parse_addr_state(value):
+    """
+    one hot encoding of
+    ['AZ', 'GA', 'IL', 'CA', 'OR', 'NC', 'TX', 'VA', 'MO', 'CT', 'UT',
+       'FL', 'NY', 'PA', 'MN', 'NJ', 'KY', 'OH', 'SC', 'RI', 'LA', 'MA',
+       'WA', 'WI', 'AL', 'CO', 'KS', 'NV', 'AK', 'MD', 'WV', 'VT', 'MI',
+       'DC', 'SD', 'NH', 'AR', 'NM', 'MT', 'HI', 'WY', 'OK', 'DE', 'MS',
+       'TN', 'IA', 'NE', 'ID', 'IN', 'ME']
+    """
     pass
-def parse_all_util():
+def parse_all_util(value):
     pass
-def parse_annual_inc():
+def parse_annual_inc(value):
     pass
-def parse_annual_inc_joint():
+def parse_annual_inc_joint(value):
     pass
-def parse_application_type():
+def parse_application_type(value):
+    # TODO: always ['Individual']
     pass
-def parse_avg_cur_bal():
+def parse_avg_cur_bal(value):
     pass
-def parse_bc_open_to_buy():
+def parse_bc_open_to_buy(value):
     pass
-def parse_bc_util():
+def parse_bc_util(value):
     pass
-def parse_chargeoff_within_12_mths():
+def parse_chargeoff_within_12_mths(value):
     pass
-def parse_collection_recovery_fee():
+def parse_collection_recovery_fee(value):
     pass
-def parse_collections_12_mths_ex_med():
+def parse_collections_12_mths_ex_med(value):
     pass
-def parse_delinq_2yrs():
+def parse_delinq_2yrs(value):
     pass
-def parse_delinq_amnt():
+def parse_delinq_amnt(value):
     pass
-def parse_desc():
+def parse_desc(value):
+    # TODO: nlp?
     pass
-def parse_dti():
+def parse_dti(value):
     pass
-def parse_dti_joint():
+def parse_dti_joint(value):
     pass
-def parse_earliest_cr_line():
+def parse_earliest_cr_line(value):
+    # TODO: parse data, format Dec-1994
+    # or better calculate diff(this, today)??
     pass
-def parse_emp_length():
+def parse_emp_length(value):
+    """
+    one hot encoding of
+    (['10+ years', '< 1 year', '1 year', '3 years', '8 years', '9 years',
+       '4 years', '5 years', '6 years', '2 years', '7 years', 'n/a']
+    """
     pass
-def parse_emp_title():
+def parse_emp_title(value):
+    # probably not necessary now: also can do one hot encoding
     pass
-def parse_fico_range_high():
+def parse_fico_range_high(value):
     pass
-def parse_fico_range_low():
+def parse_fico_range_low(value):
     pass
-def parse_funded_amnt():
+def parse_funded_amnt(value):
     pass
-def parse_funded_amnt_inv():
+def parse_funded_amnt_inv(value):
     pass
-def parse_grade():
+def parse_grade(value):
+    # TODO: one hot encoding of ['B', 'C', 'A', 'E', 'F', 'D', 'G']
     pass
-def parse_home_ownership():
+def parse_home_ownership(value):
+    # TODO: one hot encoding of ['RENT', 'OWN', 'MORTGAGE', 'OTHER', 'NONE']
     pass
-def parse_id():
+def parse_id(value):
     pass
-def parse_il_util():
+def parse_il_util(value):
     pass
-def parse_initial_list_status():
+def parse_initial_list_status(value):
+    # TODO: always ['f']
     pass
-def parse_inq_fi():
+def parse_inq_fi(value):
     pass
-def parse_inq_last_12m():
+def parse_inq_last_12m(value):
     pass
-def parse_inq_last_6mths():
+def parse_inq_last_6mths(value):
     pass
-def parse_installment():
+def parse_installment(value):
     pass
-def parse_int_rate():
+def parse_int_rate(value):
+    return float(value.strip(" %"))
+def parse_issue_d(value):
+    # TODO: data in this format: Sep-2010
     pass
-def parse_issue_d():
+def parse_last_credit_pull_d(value):
+    # TODO: data in this format: Sep-2010 or diff(this, today)
     pass
-def parse_last_credit_pull_d():
+def parse_last_fico_range_high(value):
     pass
-def parse_last_fico_range_high():
+def parse_last_fico_range_low(value):
     pass
-def parse_last_fico_range_low():
+def parse_last_pymnt_amnt(value):
     pass
-def parse_last_pymnt_amnt():
+def parse_last_pymnt_d(value):
+    # TODO: parse date format 'Jan-2015' or calculate diff(this, today)??
     pass
-def parse_last_pymnt_d():
+def parse_loan_amnt(value):
     pass
-def parse_loan_amnt():
+def parse_loan_status(value):
+    """
+    one hot encoding of
+    ['Fully Paid', 'Charged Off',
+       'Does not meet the credit policy. Status:Fully Paid',
+       'Does not meet the credit policy. Status:Charged Off']
+    """
     pass
-def parse_loan_status():
+def parse_max_bal_bc(value):
     pass
-def parse_max_bal_bc():
+def parse_member_id(value):
     pass
-def parse_member_id():
+def parse_mo_sin_old_il_acct(value):
     pass
-def parse_mo_sin_old_il_acct():
+def parse_mo_sin_old_rev_tl_op(value):
     pass
-def parse_mo_sin_old_rev_tl_op():
+def parse_mo_sin_rcnt_rev_tl_op(value):
     pass
-def parse_mo_sin_rcnt_rev_tl_op():
+def parse_mo_sin_rcnt_tl(value):
     pass
-def parse_mo_sin_rcnt_tl():
+def parse_mort_acc(value):
     pass
-def parse_mort_acc():
+def parse_mths_since_last_delinq(value):
     pass
-def parse_mths_since_last_delinq():
+def parse_mths_since_last_major_derog(value):
     pass
-def parse_mths_since_last_major_derog():
+def parse_mths_since_last_record(value):
     pass
-def parse_mths_since_last_record():
+def parse_mths_since_rcnt_il(value):
     pass
-def parse_mths_since_rcnt_il():
+def parse_mths_since_recent_bc(value):
     pass
-def parse_mths_since_recent_bc():
+def parse_mths_since_recent_bc_dlq(value):
     pass
-def parse_mths_since_recent_bc_dlq():
+def parse_mths_since_recent_inq(value):
     pass
-def parse_mths_since_recent_inq():
+def parse_mths_since_recent_revol_delinq(value):
     pass
-def parse_mths_since_recent_revol_delinq():
+def parse_next_pymnt_d(value):
+    # TODO: parse data format 'Jan-2016' or diff(this, today)?
     pass
-def parse_next_pymnt_d():
+def parse_num_accts_ever_120_pd(value):
     pass
-def parse_num_accts_ever_120_pd():
+def parse_num_actv_bc_tl(value):
     pass
-def parse_num_actv_bc_tl():
+def parse_num_actv_rev_tl(value):
     pass
-def parse_num_actv_rev_tl():
+def parse_num_bc_sats(value):
     pass
-def parse_num_bc_sats():
+def parse_num_bc_tl(value):
     pass
-def parse_num_bc_tl():
+def parse_num_il_tl(value):
     pass
-def parse_num_il_tl():
+def parse_num_op_rev_tl(value):
     pass
-def parse_num_op_rev_tl():
+def parse_num_rev_accts(value):
     pass
-def parse_num_rev_accts():
+def parse_num_rev_tl_bal_gt_0(value):
     pass
-def parse_num_rev_tl_bal_gt_0():
+def parse_num_sats(value):
     pass
-def parse_num_sats():
+def parse_num_tl_120dpd_2m(value):
     pass
-def parse_num_tl_120dpd_2m():
+def parse_num_tl_30dpd(value):
     pass
-def parse_num_tl_30dpd():
+def parse_num_tl_90g_dpd_24m(value):
     pass
-def parse_num_tl_90g_dpd_24m():
+def parse_num_tl_op_past_12m(value):
     pass
-def parse_num_tl_op_past_12m():
+def parse_open_acc(value):
     pass
-def parse_open_acc():
+def parse_open_acc_6m(value):
     pass
-def parse_open_acc_6m():
+def parse_open_il_12m(value):
     pass
-def parse_open_il_12m():
+def parse_open_il_24m(value):
     pass
-def parse_open_il_24m():
+def parse_open_act_il(value):
     pass
-def parse_open_act_il():
+def parse_open_rv_12m(value):
     pass
-def parse_open_rv_12m():
+def parse_open_rv_24m(value):
     pass
-def parse_open_rv_24m():
+def parse_out_prncp(value):
     pass
-def parse_out_prncp():
+def parse_out_prncp_inv(value):
     pass
-def parse_out_prncp_inv():
+def parse_pct_tl_nvr_dlq(value):
     pass
-def parse_pct_tl_nvr_dlq():
+def parse_percent_bc_gt_75(value):
     pass
-def parse_percent_bc_gt_75():
+def parse_policy_code(value):
     pass
-def parse_policy_code():
+def parse_pub_rec(value):
     pass
-def parse_pub_rec():
+def parse_pub_rec_bankruptcies(value):
     pass
-def parse_pub_rec_bankruptcies():
+def parse_purpose(value):
+    """
+    one hot encoding of
+    ['credit_card', 'car', 'small_business', 'other', 'wedding',
+       'debt_consolidation', 'home_improvement', 'major_purchase',
+       'medical', 'moving', 'vacation', 'house', 'renewable_energy',
+       'educational']
+    """
     pass
-def parse_purpose():
+def parse_pymnt_plan(value):
+    # TODO: always ['n'] for df3a
     pass
-def parse_pymnt_plan():
+def parse_recoveries(value):
     pass
-def parse_recoveries():
+def parse_revol_bal(value):
     pass
-def parse_revol_bal():
+def parse_revol_util(value):
+    return float(value.strip(" %"))
+def parse_sub_grade(value):
+    """
+    one hot encoding of ['B2', 'C4', 'C5', 'C1', 'B5', 'A4', 'E1', 'F2', 'C3', 'B1', 'D1',
+       'A1', 'B3', 'B4', 'C2', 'D2', 'A3', 'A5', 'D5', 'A2', 'E4', 'D3',
+       'D4', 'F3', 'E3', 'F4', 'F1', 'E5', 'G4', 'E2', 'G3', 'G2', 'G1',
+       'F5', 'G5']
+    """
     pass
-def parse_revol_util():
+def parse_tax_liens(value):
     pass
-def parse_sub_grade():
+def parse_term(value):
+    conversion = {
+        ' 36 months': 36,
+        ' 60 months': 60
+    }
+    return conversion[value]
+
+def parse_title(value):
+    # TODO: nlp?
     pass
-def parse_tax_liens():
+def parse_tot_coll_amt(value):
     pass
-def parse_term():
+def parse_tot_cur_bal(value):
     pass
-def parse_title():
+def parse_tot_hi_cred_lim(value):
     pass
-def parse_tot_coll_amt():
+def parse_total_acc(value):
     pass
-def parse_tot_cur_bal():
+def parse_total_bal_ex_mort(value):
     pass
-def parse_tot_hi_cred_lim():
+def parse_total_bal_il(value):
     pass
-def parse_total_acc():
+def parse_total_bc_limit(value):
     pass
-def parse_total_bal_ex_mort():
+def parse_total_cu_tl(value):
     pass
-def parse_total_bal_il():
+def parse_total_il_high_credit_limit(value):
     pass
-def parse_total_bc_limit():
+def parse_total_pymnt(value):
     pass
-def parse_total_cu_tl():
+def parse_total_pymnt_inv(value):
     pass
-def parse_total_il_high_credit_limit():
+def parse_total_rec_int(value):
     pass
-def parse_total_pymnt():
+def parse_total_rec_late_fee(value):
     pass
-def parse_total_pymnt_inv():
+def parse_total_rec_prncp(value):
     pass
-def parse_total_rec_int():
+def parse_total_rev_hi_lim(value):
     pass
-def parse_total_rec_late_fee():
+def parse_url(value):
+    # TODO: probably always https://lendingclub.com/browse/loanDetail.action?loan_id=<id>
     pass
-def parse_total_rec_prncp():
+def parse_verification_status(value):
+    # TODO: one hot encoding of ['Verified', 'Source Verified', 'Not Verified']
     pass
-def parse_total_rev_hi_lim():
+def parse_verified_status_joint(value):
     pass
-def parse_url():
+def parse_zip_code(value):
+    # TODO: format 309xx; one hot encoding?
     pass
-def parse_verification_status():
+def parse_revol_bal_joint(value):
     pass
-def parse_verified_status_joint():
+def parse_sec_app_fico_range_low(value):
     pass
-def parse_zip_code():
+def parse_sec_app_fico_range_high(value):
     pass
-def parse_revol_bal_joint():
+def parse_sec_app_earliest_cr_line(value):
     pass
-def parse_sec_app_fico_range_low():
+def parse_sec_app_inq_last_6mths(value):
     pass
-def parse_sec_app_fico_range_high():
+def parse_sec_app_mort_acc(value):
     pass
-def parse_sec_app_earliest_cr_line():
+def parse_sec_app_open_acc(value):
     pass
-def parse_sec_app_inq_last_6mths():
+def parse_sec_app_revol_util(value):
     pass
-def parse_sec_app_mort_acc():
+def parse_sec_app_open_act_il(value):
     pass
-def parse_sec_app_open_acc():
+def parse_sec_app_num_rev_accts(value):
     pass
-def parse_sec_app_revol_util():
+def parse_sec_app_chargeoff_within_12_mths(value):
     pass
-def parse_sec_app_open_act_il():
+def parse_sec_app_collections_12_mths_ex_med(value):
     pass
-def parse_sec_app_num_rev_accts():
+def parse_sec_app_mths_since_last_major_derog(value):
     pass
-def parse_sec_app_chargeoff_within_12_mths():
+def parse_hardship_flag(value):
+    # TODO: always ['N']
     pass
-def parse_sec_app_collections_12_mths_ex_med():
+def parse_hardship_type(value):
     pass
-def parse_sec_app_mths_since_last_major_derog():
+def parse_hardship_reason(value):
     pass
-def parse_hardship_flag():
+def parse_hardship_status(value):
     pass
-def parse_hardship_type():
+def parse_deferral_term(value):
     pass
-def parse_hardship_reason():
+def parse_hardship_amount(value):
     pass
-def parse_hardship_status():
+def parse_hardship_start_date(value):
     pass
-def parse_deferral_term():
+def parse_hardship_end_date(value):
     pass
-def parse_hardship_amount():
+def parse_payment_plan_start_date(value):
     pass
-def parse_hardship_start_date():
+def parse_hardship_length(value):
     pass
-def parse_hardship_end_date():
+def parse_hardship_dpd(value):
     pass
-def parse_payment_plan_start_date():
+def parse_hardship_loan_status(value):
     pass
-def parse_hardship_length():
+def parse_orig_projected_additional_accrued_interest(value):
     pass
-def parse_hardship_dpd():
+def parse_hardship_payoff_balance_amount(value):
     pass
-def parse_hardship_loan_status():
+def parse_hardship_last_payment_amount(value):
     pass
-def parse_orig_projected_additional_accrued_interest():
+def parse_disbursement_method(value):
+    # TODO: always ['Cash']
     pass
-def parse_hardship_payoff_balance_amount():
+def parse_debt_settlement_flag(value):
+    # TODO: one hot encoding of ['N', 'Y']
     pass
-def parse_hardship_last_payment_amount():
+def parse_debt_settlement_flag_date(value):
+    # TODO: parse data format 'Mar-2013' or diff(this, today)??
     pass
-def parse_disbursement_method():
+def parse_settlement_status(value):
+    # TODO: one hot encoding of [nan, 'COMPLETE', 'BROKEN', 'ACTIVE']
     pass
-def parse_debt_settlement_flag():
+def parse_settlement_date(value):
+    # TODO: parse data format 'Mar-2013' or diff(this, today)??
     pass
-def parse_debt_settlement_flag_date():
+def parse_settlement_amount(value):
     pass
-def parse_settlement_status():
+def parse_settlement_percentage(value):
     pass
-def parse_settlement_date():
-    pass
-def parse_settlement_amount():
-    pass
-def parse_settlement_percentage():
-    pass
-def parse_settlement_term():
+def parse_settlement_term(value):
     pass
 
 columns = {
