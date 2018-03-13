@@ -8,9 +8,9 @@ def getObjectColumns(df):
     return df.columns[df.dtypes == "O"]
 
 
-def nullableColumns(df):
+def getNullableColumns(df):
     return df.columns[df.isna().all()]
 
 
-def nonNullableColumns(df):
+def getNonNullableColumns(df):
     return df.columns[df.notna().all()]
