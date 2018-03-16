@@ -113,11 +113,10 @@ def parse_loan_status(value):
         'Does not meet the credit policy. Status:Fully Paid': 1,
         'Does not meet the credit policy. Status:Charged Off': 0,
         'Current': None,
-        'Late (31-120 days)': None,
         'Late (16-30 days)': None,
+        'Late (31-120 days)': None,
         'In Grace Period': None,
-        'Default': None,
-        'Fully Paid': None,
+        'Default': None
     }
     assert(value in convert)
     return convert[value]
