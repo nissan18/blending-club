@@ -8,7 +8,6 @@ import columns
 import helpers
 
 
-
 def main():
     dataFiles = [
         '../data/LoanStats3a_securev1.csv',
@@ -40,7 +39,7 @@ def main():
         'svc2017Q4.pkl'
     ]
 
-    for i in range(8):
+    for i in range(12):
         begin = time.time()
         print("Processing " + dataFiles[i])
         df = pandas.read_csv(dataFiles[i], dtype=columns.dtypes)
