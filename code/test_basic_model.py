@@ -5,11 +5,19 @@ from sklearn.externals import joblib
 
 from columns import columns
 import helpers
-
+import definitions
 
 def main():
-    filename = "df3a_svc.pkl"
-    clf = loadModel(filename)
+    # import first model
+    # load all datasets
+    # get acuracy for all datasets
+
+    key = "2007-2011"
+    filename = "../models/{0}.pkl".format(key)
+    print(filename)
+    return
+
+    # clf = loadModel(definitions.dataFiles[""]
 
     files = [
         '../data/LoanStats3a_securev1.csv',

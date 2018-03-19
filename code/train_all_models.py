@@ -2,6 +2,7 @@ import pandas
 import numpy as np
 from sklearn.svm import SVC
 from sklearn.externals import joblib
+import time
 
 import columns
 import helpers
@@ -10,36 +11,37 @@ import helpers
 
 def main():
     dataFiles = [
-        '../data/LoanStats3a_securev1.csv'
-        # '../data/LoanStats3b_securev1.csv',
-        # '../data/LoanStats3c_securev1.csv',
-        # '../data/LoanStats3d_securev1.csv',
-        # '../data/LoanStats_securev1_2016Q1.csv',
-        # '../data/LoanStats_securev1_2016Q2.csv',
-        # '../data/LoanStats_securev1_2016Q3.csv',
-        # '../data/LoanStats_securev1_2016Q4.csv',
-        # '../data/LoanStats_securev1_2017Q1.csv',
-        # '../data/LoanStats_securev1_2017Q2.csv',
-        # '../data/LoanStats_securev1_2017Q3.csv',
-        # '../data/LoanStats_securev1_2017Q4.csv'
+        '../data/LoanStats3a_securev1.csv',
+        '../data/LoanStats3b_securev1.csv',
+        '../data/LoanStats3c_securev1.csv',
+        '../data/LoanStats3d_securev1.csv',
+        '../data/LoanStats_securev1_2016Q1.csv',
+        '../data/LoanStats_securev1_2016Q2.csv',
+        '../data/LoanStats_securev1_2016Q3.csv',
+        '../data/LoanStats_securev1_2016Q4.csv',
+        '../data/LoanStats_securev1_2017Q1.csv',
+        '../data/LoanStats_securev1_2017Q2.csv',
+        '../data/LoanStats_securev1_2017Q3.csv',
+        '../data/LoanStats_securev1_2017Q4.csv'
     ]
 
     modelFiles = [
         'svc3a.pkl',
-        # 'svc3b.pkl',
-        # 'svc3c.pkl',
-        # 'svc3d.pkl',
-        # 'svc2016Q1.pkl',
-        # 'svc2016Q2.pkl',
-        # 'svc2016Q3.pkl',
-        # 'svc2016Q4.pkl',
-        # 'svc2017Q1.pkl',
-        # 'svc2017Q2.pkl',
-        # 'svc2017Q3.pkl',
-        # 'svc2017Q4.pkl'
+        'svc3b.pkl',
+        'svc3c.pkl',
+        'svc3d.pkl',
+        'svc2016Q1.pkl',
+        'svc2016Q2.pkl',
+        'svc2016Q3.pkl',
+        'svc2016Q4.pkl',
+        'svc2017Q1.pkl',
+        'svc2017Q2.pkl',
+        'svc2017Q3.pkl',
+        'svc2017Q4.pkl'
     ]
 
     for i in range(8):
+        begin = time.time()
         print("Processing " + dataFiles[i])
         df = pandas.read_csv(dataFiles[i], dtype=columns.dtypes)
         df = helpers.getFinishedLoans(df)
@@ -48,16 +50,10 @@ def main():
         X, y = extractData(df, features)
 
         clf = trainModel(X, y)
-        # print(clf)
-        # print("Accuracy = {0}".format(getAccuracy(clf, X, y)))
-
         saveModel(clf, modelFiles[i])
 
-
-        break
-        # clf2 = loadModel(filename)
-        # print(clf2)
-        # print("Accuracy = {0}".format(getAccuracy(clf2, X, y)))
+        end = time.time()
+        print("Elapsed {0} seconds".format(end-begin))
 
 
 def getFeatures(df):
