@@ -1,87 +1,44 @@
 import pandas
 import numpy as np
-from sklearn.svm import SVC
-from sklearn.externals import joblib
 
-from columns import columns
+import columns
 import helpers
 import definitions
 
 def main():
-    # import first model
-    # load all datasets
-    # get acuracy for all datasets
-
     key = "2007-2011"
-    filename = "../models/{0}.pkl".format(key)
-    print(filename)
-    return
-
-    # clf = loadModel(definitions.dataFiles[""]
+    modelFile = "../models/svc{0}.pkl".format(key)
+    clf = helpers.loadModel(modelFile)
 
     files = [
         '../data/LoanStats3a_securev1.csv',
-        '../data/LoanStats3b_securev1.csv',
-        '../data/LoanStats3c_securev1.csv',
-        '../data/LoanStats3d_securev1.csv'
+        # '../data/LoanStats3b_securev1.csv',
+        # '../data/LoanStats3c_securev1.csv',
+        # '../data/LoanStats3d_securev1.csv'
         # '../data/LoanStats_securev1_2016Q1.csv',
         # '../data/LoanStats_securev1_2016Q2.csv',
         # '../data/LoanStats_securev1_2016Q3.csv',
         # '../data/LoanStats_securev1_2016Q4.csv',
-        # '../data/LoanStats_securev1_2017Q1.csv',
-        # '../data/LoanStats_securev1_2017Q2.csv',
-        # '../data/LoanStats_securev1_2017Q3.csv',
-        # '../data/LoanStats_securev1_2017Q4.csv'
+        '../data/LoanStats_securev1_2017Q1.csv',
+        '../data/LoanStats_securev1_2017Q2.csv',
+        '../data/LoanStats_securev1_2017Q3.csv',
+        '../data/LoanStats_securev1_2017Q4.csv'
     ]
 
+    features = None
     for filename in files:
-        df = pandas.read_csv(filename)
-        features = getFeatures(df)
-        X, y = extractData(df, features)
-        print("Accuracy = {0}".format(getAccuracy(clf, X, y)))
+        print(filename)
 
+        df = pandas.read_csv(filename, dtype=columns.dtypes)
+        print("raw shape: {0}".format(df.shape))
 
-def getFeatures(df):
-    numeric_columns = helpers.getNumericColumns(df)
-    nonnullable_columns = helpers.getNonNullableColumns(df)
-    numeric_nonnullable_columns = list(set(numeric_columns) & set(nonnullable_columns))
-    return numeric_nonnullable_columns
-    
+        df = helpers.getFinishedLoans(df)
+        print("finished shape: {0}".format( df.shape))
 
-def extractData(df, features):
-    return df[features].values, df["loan_status"].apply(convertLoanStatus).values
-
-
-def trainModel(X, y):
-    clf = SVC()
-    clf.fit(X, y)
-    return clf
-
-
-def saveModel(clf, filename):
-    joblib.dump(clf, filename)
-
-
-def loadModel(filename):
-    return joblib.load(filename)
-
-
-def getAccuracy(clf, X, y):
-    y_p = clf.predict(X)  # predicted
-    assert(y.shape == y_p.shape)
-    return sum(y == y_p)/len(y)
-
-
-
-def convertLoanStatus(status):
-    convert = {
-        'Fully Paid': 1,
-        'Charged Off': 0,
-        'Does not meet the credit policy. Status:Fully Paid': 1,
-        'Does not meet the credit policy. Status:Charged Off': 0,
-    }
-    assert(status in convert)
-    return convert[status]
+        if not features:
+            features = helpers.getFeatures(df)
+        X, y = helpers.extractData(df, features)
+        print("Accuracy = {0}".format(helpers.getAccuracy(clf, X, y)))
 
 
 if __name__ == "__main__":

@@ -1,5 +1,10 @@
+import numpy as np
+import dateutil.parser as dateparser
+
 def parse_acc_now_delinq(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_acc_open_past_24mths(value):
     pass
 def parse_addr_state(value):
@@ -13,44 +18,69 @@ def parse_addr_state(value):
     """
     pass
 def parse_all_util(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_annual_inc(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_annual_inc_joint(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_application_type(value):
-    # TODO: always ['Individual']
+    # TODO: one hot encoding of ['Individual' 'Joint App']
     pass
 def parse_avg_cur_bal(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_bc_open_to_buy(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_bc_util(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_chargeoff_within_12_mths(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_collection_recovery_fee(value):
-    pass
+    return value
 def parse_collections_12_mths_ex_med(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_delinq_2yrs(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_delinq_amnt(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_desc(value):
     # TODO: nlp?
     pass
 def parse_dti(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_dti_joint(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_earliest_cr_line(value):
+    return dateparser.parse(value)
     # TODO: parse data, format Dec-1994
     # or better calculate diff(this, today)??
     pass
 def parse_emp_length(value):
+    # TODO: one hot encoding of
     """
-    one hot encoding of
     (['10+ years', '< 1 year', '1 year', '3 years', '8 years', '9 years',
        '4 years', '5 years', '6 years', '2 years', '7 years', 'n/a']
     """
@@ -59,13 +89,13 @@ def parse_emp_title(value):
     # probably not necessary now: also can do one hot encoding
     pass
 def parse_fico_range_high(value):
-    pass
+    return value
 def parse_fico_range_low(value):
-    pass
+    return value
 def parse_funded_amnt(value):
-    pass
+    return value
 def parse_funded_amnt_inv(value):
-    pass
+    return value
 def parse_grade(value):
     # TODO: one hot encoding of ['B', 'C', 'A', 'E', 'F', 'D', 'G']
     pass
@@ -73,22 +103,31 @@ def parse_home_ownership(value):
     # TODO: one hot encoding of ['RENT', 'OWN', 'MORTGAGE', 'OTHER', 'NONE']
     pass
 def parse_id(value):
+    # TODO: don't use it for real model
     pass
 def parse_il_util(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_initial_list_status(value):
-    # TODO: always ['f']
+    # TODO: one hot encoding of ['f' 'w']
     pass
 def parse_inq_fi(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_inq_last_12m(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_inq_last_6mths(value):
-    pass
+    if np.isnan(value):
+        return 0
+    return value
 def parse_installment(value):
-    pass
+    return value
 def parse_int_rate(value):
-    return float(value.strip(" %"))
+    return np.float64(value.strip(" %"))
 def parse_issue_d(value):
     # TODO: data in this format: Sep-2010
     pass
@@ -96,9 +135,9 @@ def parse_last_credit_pull_d(value):
     # TODO: data in this format: Sep-2010 or diff(this, today)
     pass
 def parse_last_fico_range_high(value):
-    pass
+    return value
 def parse_last_fico_range_low(value):
-    pass
+    return value
 def parse_last_pymnt_amnt(value):
     pass
 def parse_last_pymnt_d(value):
