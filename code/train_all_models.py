@@ -25,7 +25,7 @@ def main():
         assert(not pandas_helper.columnsHaveNull(df, labelColumns.tolist()))
 
         X = df[featureColumns].values
-        y = df[labelColumns][0].values
+        y = df[labelColumns[0]].values
         clf = scikit_helper.trainModel(X, y)
 
         filename = "svc_{0}.pkl".format(key)
