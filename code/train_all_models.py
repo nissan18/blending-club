@@ -22,10 +22,10 @@ def main():
         lendingclub_helper.buildLabels(df)
         labelColumns = lendingclub_helper.getLabelColumns(df)
         df = lendingclub_helper.getFinishedLoans(df)
-        assert(not pandas_helper.columnsHaveNull(df, featureColumns.tolist()))
+        assert(not pandas_helper.columnsHaveNull(df, labelColumns.tolist()))
 
         X = df[featureColumns].values
-        y = df[labelColumns].values
+        y = df[labelColumns][0].values
         clf = scikit_helper.trainModel(X, y)
 
         filename = "svc_{0}.pkl".format(key)
@@ -33,7 +33,6 @@ def main():
 
         end = time.time()
         print("Elapsed {0} seconds".format(end-begin))
-        break
 
 
 if __name__ == "__main__":
