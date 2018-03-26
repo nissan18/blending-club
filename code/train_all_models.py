@@ -1,101 +1,39 @@
-import pandas
-import numpy as np
-from sklearn.svm import SVC
-from sklearn.externals import joblib
 import time
 
-import columns
-import helpers
+import definitions
+import pandas_helper
+import scikit_helper
+import lendingclub_helper
 
 
 def main():
-    dataFiles = [
-        '../data/LoanStats3a_securev1.csv',
-        '../data/LoanStats3b_securev1.csv',
-        '../data/LoanStats3c_securev1.csv',
-        '../data/LoanStats3d_securev1.csv',
-        '../data/LoanStats_securev1_2016Q1.csv',
-        '../data/LoanStats_securev1_2016Q2.csv',
-        '../data/LoanStats_securev1_2016Q3.csv',
-        '../data/LoanStats_securev1_2016Q4.csv',
-        '../data/LoanStats_securev1_2017Q1.csv',
-        '../data/LoanStats_securev1_2017Q2.csv',
-        '../data/LoanStats_securev1_2017Q3.csv',
-        '../data/LoanStats_securev1_2017Q4.csv'
-    ]
+    print("Begin:" + __file__)
 
-    modelFiles = [
-        'svc3a.pkl',
-        'svc3b.pkl',
-        'svc3c.pkl',
-        'svc3d.pkl',
-        'svc2016Q1.pkl',
-        'svc2016Q2.pkl',
-        'svc2016Q3.pkl',
-        'svc2016Q4.pkl',
-        'svc2017Q1.pkl',
-        'svc2017Q2.pkl',
-        'svc2017Q3.pkl',
-        'svc2017Q4.pkl'
-    ]
-
-    for i in range(12):
+    for key in definitions.dataFiles:
         begin = time.time()
-        print("Processing " + dataFiles[i])
-        df = pandas.read_csv(dataFiles[i], dtype=columns.dtypes)
-        df = helpers.getFinishedLoans(df)
+        print("Processing: " + key)
 
-        features = getFeatures(df)
-        X, y = extractData(df, features)
+        df = pandas_helper.readData(definitions.dataFiles[key])
 
-        clf = trainModel(X, y)
-        saveModel(clf, modelFiles[i])
+        lendingclub_helper.buildFeatures(df)
+        featureColumns = lendingclub_helper.getFeatureColumns(df)
+        assert(not pandas_helper.columnsHaveNull(df, featureColumns.tolist()))
+
+        lendingclub_helper.buildLabels(df)
+        labelColumns = lendingclub_helper.getLabelColumns(df)
+        df = lendingclub_helper.getFinishedLoans(df)
+        assert(not pandas_helper.columnsHaveNull(df, featureColumns.tolist()))
+
+        X = df[featureColumns].values
+        y = df[labelColumns].values
+        clf = scikit_helper.trainModel(X, y)
+
+        filename = "svc_{0}.pkl".format(key)
+        scikit_helper.saveModel(clf, filename)
 
         end = time.time()
         print("Elapsed {0} seconds".format(end-begin))
-
-
-def getFeatures(df):
-    numeric_columns = helpers.getNumericColumns(df)
-    nonnullable_columns = helpers.getNonNullableColumns(df)
-    numeric_nonnullable_columns = list(set(numeric_columns) & set(nonnullable_columns))
-    return numeric_nonnullable_columns
-
-
-def extractData(df, features):
-    return df[features].values, df["loan_status"].apply(convertLoanStatus).values
-
-
-def trainModel(X, y):
-    clf = SVC()
-    clf.fit(X, y)
-    return clf
-
-
-def saveModel(clf, filename):
-    joblib.dump(clf, filename)
-
-
-def loadModel(filename):
-    return joblib.load(filename)
-
-
-def getAccuracy(clf, X, y):
-    y_p = clf.predict(X)  # predicted
-    assert(y.shape == y_p.shape)
-    return sum(y == y_p)/len(y)
-
-
-
-def convertLoanStatus(status):
-    convert = {
-        'Fully Paid': 1,
-        'Charged Off': 0,
-        'Does not meet the credit policy. Status:Fully Paid': 1,
-        'Does not meet the credit policy. Status:Charged Off': 0,
-    }
-    assert(status in convert)
-    return convert[status]
+        break
 
 
 if __name__ == "__main__":

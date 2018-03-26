@@ -18,6 +18,8 @@ def getAccuracy(clf, X, y):
 def trainModel(X, y):
     assert(isinstance(X, np.ndarray))
     assert(isinstance(y, np.ndarray))
+    assert(len(y.shape) == 1)
+    assert(X.shape[0] == y.shape[0])
 
     clf = SVC()
     clf.fit(X, y)

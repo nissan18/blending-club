@@ -9,6 +9,13 @@ def readData(filename):
     return pd.read_csv(filename, dtype=columns.dtypes)
 
 
+def getColumnsByPrefix(df, prefix):
+    assert(isinstance(df, pd.DataFrame))
+    assert(isinstance(prefix, str))
+
+    return df.columns[df.columns.str.startswith(prefix)]
+
+
 def columnHasNull(df, col):
     assert(isinstance(df, pd.DataFrame))
     assert(isinstance(col, str))
@@ -21,7 +28,7 @@ def columnsHaveNull(df, cols):
     assert(isinstance(cols, list))
     assert(all([isinstance(c, str) for c in cols]))
 
-    return all([c for c in cols if columnHasNull(df, c)])
+    return all([columnHasNull(df, c) for c in cols])
 
 
 def getNumericColumns(df):
@@ -46,12 +53,3 @@ def getNonNullableColumns(df):
     assert(isinstance(df, pd.DataFrame))
 
     return df.columns[df.notna().all()]
-
-
-def getFeatures(df):
-    assert(isinstance(df, pd.DataFrame))
-
-    numeric_columns = getNumericColumns(df)
-    nonnullable_columns = getNonNullableColumns(df)
-    numeric_nonnullable_columns = list(set(numeric_columns) & set(nonnullable_columns))
-    return numeric_nonnullable_columns

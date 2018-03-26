@@ -1,7 +1,7 @@
 
 
 def main():
-    print("begin pipeline")
+    print("Begin:" + __file__)
     """
     Grand Master Plan
     1. load all data, let's stick to just one dataSet for now

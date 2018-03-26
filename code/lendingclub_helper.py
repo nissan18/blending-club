@@ -1,5 +1,9 @@
 import numpy as np
+import pandas as pd
 from sklearn.svm import SVC
+
+import columns
+import pandas_helper
 
 
 def getFinishedLoans(df):
@@ -213,5 +217,14 @@ def buildFeatures(df):
 def getFeatureColumns(df):
     assert(isinstance(df, pd.DataFrame))
 
-    # TODO: consider changing to pandas object (df.columns.startswith?????)
-    return [c for c in dataFrames[key].columns if c.startswith("f_")]
+    return pandas_helper.getColumnsByPrefix(df, "f_")
+
+
+def buildLabels(df):
+    df["l_loan_status"] = df["loan_status"].apply(columns.parse_loan_status)
+
+
+def getLabelColumns(df):
+    assert(isinstance(df, pd.DataFrame))
+
+    return pandas_helper.getColumnsByPrefix(df, "l_")
