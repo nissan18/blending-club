@@ -5,16 +5,6 @@ from sklearn.externals import joblib
 import numpy as np
 
 
-def getAccuracy(clf, X, y):
-    assert(isinstance(clf, ClassifierMixin))
-    assert(isinstance(X, np.ndarray))
-    assert(isinstance(y, np.ndarray))
-
-    y_p = clf.predict(X)  # predicted
-    assert(y.shape == y_p.shape)
-    return sum(y == y_p)/len(y)
-
-
 def trainModel(X, y):
     assert(isinstance(X, np.ndarray))
     assert(isinstance(y, np.ndarray))
@@ -24,6 +14,18 @@ def trainModel(X, y):
     clf = SVC()
     clf.fit(X, y)
     return clf
+
+
+def getAccuracy(clf, X, y):
+    assert(isinstance(clf, ClassifierMixin))
+    assert(isinstance(X, np.ndarray))
+    assert(isinstance(y, np.ndarray))
+    assert(len(y.shape) == 1)
+    assert(X.shape[0] == y.shape[0])
+
+    y_p = clf.predict(X)  # predicted
+    assert(y.shape == y_p.shape)
+    return sum(y == y_p)/len(y)
 
 
 def saveModel(clf, filename):

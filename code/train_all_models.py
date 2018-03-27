@@ -7,7 +7,7 @@ import lendingclub_helper
 
 
 def main():
-    print("Begin:" + __file__)
+    print("Begin: " + __file__)
 
     for key in definitions.dataFiles:
         begin = time.time()
