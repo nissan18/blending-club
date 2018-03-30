@@ -6,7 +6,6 @@ import sys
 def main():
     print("Begin: " + __file__)
 
-    # stderrHandler = 
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
 
@@ -21,11 +20,13 @@ def main():
     begin = time.time()
     """
     Grand Master Plan
-    1. load all data, let's stick to just one dataSet for now
-    2. build feature columns for dataSet
-    3, build label(s) for dataSet
-    4. train model
-    5. save model
+    - load all data, let's stick to just one dataSet for now
+    - build feature columns for dataSet
+    - normalize feature columns
+    - build label(s) for dataSet
+    - take random subest of data to train model (optional)
+    - train model
+    - save model
     """
 
     logging.info("before sleep")

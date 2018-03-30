@@ -53,3 +53,12 @@ def getNonNullableColumns(df):
     assert(isinstance(df, pd.DataFrame))
 
     return df.columns[df.notna().all()]
+
+
+def getOneHotEncoding(df, col):
+    assert(isinstance(df, pd.DataFrame))
+    assert(isinstance(col, str))
+
+    temp = pd.get_dummies(df["addr_state"])
+    temp.columns = ["{0}_{1}".format(col, c) for c in temp.columns]
+    return temp

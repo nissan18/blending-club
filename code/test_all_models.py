@@ -14,6 +14,30 @@ def main():
     setupLogging()
     logger = logging.getLogger()
 
+
+    # read data
+    models = {}
+    dataFrames = {}
+    for key in definitions.dataFiles:
+        print("Reading " + key)
+
+        modelFilename = "../models/svc_{0}.pkl".format(key)
+        models[key] = scikit_helper.loadModel(modelFilename)
+
+        dataFrames[key] = pandas_helper.readData(definitions.dataFiles[key])
+
+
+
+    for keyModel in models:
+        print(keyModel)
+        break
+        for keyDataFrame in dataFrames:
+            print("Using model " + keyModel + " with data " + keyDataFrame)
+
+
+    return
+
+
     for key1 in definitions.dataFiles:
         begin = time.time()
 

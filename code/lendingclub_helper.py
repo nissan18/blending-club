@@ -32,9 +32,9 @@ def extractData(df, features):
 
 
 def buildFeatures(df):
-    df["f_acc_now_delinq"] = df["acc_now_delinq"].fillna(0)
-    df["f_acc_open_past_24mths"] = df["acc_open_past_24mths"].fillna(0)
-    # TODO: addr_state -- one hot encoding of 
+    buildNumericFeature(df, "acc_now_delinq")
+    buildNumericFeature(df, "acc_open_past_24mths")
+    buildOneHotEncodingFeature(df, "addr_state")
     df["f_all_util"] = df["all_util"].fillna(0)
     df["f_annual_inc"] = df["annual_inc"].fillna(0)
     df["f_annual_inc_joint"] = df["annual_inc_joint"].fillna(0)
@@ -228,3 +228,20 @@ def getLabelColumns(df):
     assert(isinstance(df, pd.DataFrame))
 
     return pandas_helper.getColumnsByPrefix(df, "l_")
+
+
+
+
+
+def buildNumericFeature(df, col):
+    # TODO: normalize
+    # TODO: consider filling na with mean instead of 0
+    df["f_" + col] = df[col].fillna(0)
+    
+
+
+def buildOneHotEncodingFeature(df, col):
+    temp = pandas_helper.getOneHotEncoding(df, col)
+    for c in temp.columns:
+        df["f_" + c] = temp[c]
+
