@@ -8,6 +8,8 @@ import scikit_helper
 import lendingclub_helper
 
 def main():
+    print(definitions)
+    return
     key = "2007-2011"
     modelFile = "../models/svc{0}.pkl".format(key)
     clf = scikit_helper.loadModel(modelFile)

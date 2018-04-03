@@ -1,80 +1,53 @@
 import pandas
 import numpy as np
-from sklearn.svm import SVC
-from sklearn.externals import joblib
 
-from columns import columns
-import helpers
+import columns
+import definitions
+import pandas_helper
+import scikit_helper
+import lendingclub_helper
 
 
 
 def main():
-    # load data
-    df3a = pandas.read_csv("../data/LoanStats3a_securev1.csv")
 
-    features = getFeatures(df3a)
+    #  Pick one
+    key = "2007-2011"
+    # key = "2012-2013"
+    # key = "2014"
+    # key = "2015"
+    # key = "2016Q1"
+    # key = "2016Q2"
+    # key = "2016Q3"
+    # key = "2016Q4"
+    # key = "2017Q1"
+    # key = "2017Q2"
+    # key = "2017Q3"
+    # key = "2017Q4"
 
-    X, y = extractData(df3a, features)
+    print("Generate model for " + key)
+    print("Reading data...")
+    dataFile = definitions.dataFiles[key]
+    dataFrame = pandas_helper.readData(dataFile)
 
-    clf = trainModel(X, y)
+    print("Building features...")
+    lendingclub_helper.buildFeatures(dataFrame)
+    lendingclub_helper.buildLabels(dataFrame)
 
-    print(clf)
+    featureColumns = lendingclub_helper.getFeatureColumns(dataFrame)
+    labelColumns = lendingclub_helper.getLabelColumns(dataFrame)
 
-    print("Accuracy = {0}".format(getAccuracy(clf, X, y)))
+    print("Training model...")
+    X = dataFrame[featureColumns].values
+    y = dataFrame[labelColumns[0]].values
 
-    filename = "df3a_svc.pkl"
-    saveModel(clf, filename)
+    model = scikit_helper.trainModel(X, y)
 
-    clf2 = loadModel(filename)
-    print(clf2)
+    print("Saving model...")
+    modelFile = "model_{0}.pkl".format(key)
+    scikit_helper.saveModel(model, modelFile)
 
-    print("Accuracy = {0}".format(getAccuracy(clf2, X, y)))
-
-    # # check on next dataset
-    # df3b = pandas.read_csv("../data/LoanStats3b_securev1.csv")
-
-
-def getFeatures(df):
-    numeric_columns = helpers.getNumericColumns(df)
-    nonnullable_columns = helpers.getNonNullableColumns(df)
-    numeric_nonnullable_columns = list(set(numeric_columns) & set(nonnullable_columns))
-    return numeric_nonnullable_columns
-    
-
-def extractData(df, features):
-    return df[features].values, df["loan_status"].apply(convertLoanStatus).values
-
-
-def trainModel(X, y):
-    clf = SVC()
-    clf.fit(X, y)
-    return clf
-
-
-def saveModel(clf, filename):
-    joblib.dump(clf, filename)
-
-
-def loadModel(filename):
-    return joblib.load(filename)
-
-
-def getAccuracy(clf, X, y):
-    y_p = clf.predict(X)  # predicted
-    assert(y.shape == y_p.shape)
-    return sum(y == y_p)/len(y)
-
-
-
-def convertLoanStatus(status):
-    convert = {
-        'Fully Paid': 1,
-        'Charged Off': 0,
-        'Does not meet the credit policy. Status:Fully Paid': 1,
-        'Does not meet the credit policy. Status:Charged Off': 0,
-    }
-    assert(status in convert)
-    return convert[status]
+    print("Done")
 
 
 if __name__ == "__main__":

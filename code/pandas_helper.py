@@ -59,6 +59,6 @@ def getOneHotEncoding(df, col):
     assert(isinstance(df, pd.DataFrame))
     assert(isinstance(col, str))
 
-    temp = pd.get_dummies(df["addr_state"])
+    temp = pd.get_dummies(df[col])
     temp.columns = ["{0}_{1}".format(col, c) for c in temp.columns]
     return temp
