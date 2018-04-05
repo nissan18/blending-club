@@ -82,9 +82,9 @@ def buildFeatures(df):
         'Does not meet the credit policy. Status:Fully Paid',
         'Does not meet the credit policy. Status:Charged Off',
         'Current',
+        'In Grace Period',
         'Late (16-30 days)',
         'Late (31-120 days)',
-        'In Grace Period',
         'Default'
     }
     """
