@@ -52,13 +52,13 @@ def buildFeatures(df):
     buildNumericFeature(df, "dti_joint")
     # TODO: earliest_cr_line -- parse date, format Dec-1994, or better calculate diff(this, today)??
     # TODO: emp_length -- one hot encoding of ['10+ years', '< 1 year', '1 year', '3 years', '8 years', '9 years', '4 years', '5 years', '6 years', '2 years', '7 years', 'n/a']
-    # TODO: emp_title -- one hot encoding or NLP??
+    # TODO: emp_title -- NLP -- data is pretty random
     buildNumericFeature(df, "fico_range_high")
     buildNumericFeature(df, "fico_range_low")
     buildNumericFeature(df, "funded_amnt")
     buildNumericFeature(df, "funded_amnt_inv")
     buildOneHotEncodingFeature(df, "grade")
-    buildOneHotEncodingFeature(df, "home_ownership")
+    buildOneHotEncodingFeature(df, "home_ownership")  # ['NONE', 'OWN', 'RENT', 'ANY', 'OTHER', 'MORTGAGE']
     # TODO: id -- don't need this for real model, maybe add to test for noise
     buildNumericFeature(df, "il_util")
     buildOneHotEncodingFeature(df, "initial_list_status")
@@ -161,40 +161,40 @@ def buildFeatures(df):
     buildNumericFeature(df, "total_rev_hi_lim")
     # TODO: url -- check probably always https://lendingclub.com/browse/loanDetail.action?loan_id=<id>
     buildOneHotEncodingFeature(df, "verification_status")
-    # TODO: verified_status_joint -- probably same as above
+    # TODO: verified_status_joint -- column not found in any dataSets
     buildOneHotEncodingFeature(df, "zip_code")
     buildNumericFeature(df, "revol_bal_joint")
-    # df["f_sec_app_fico_range_low"] = df["sec_app_fico_range_low"].fillna(0)
-    # df["f_sec_app_fico_range_high"] = df["sec_app_fico_range_high"].fillna(0)
-    # df["f_sec_app_earliest_cr_line"] = df["sec_app_earliest_cr_line"]
-    # df["f_sec_app_inq_last_6mths"] = df["sec_app_inq_last_6mths"]
-    # df["f_sec_app_mort_acc"] = df["sec_app_mort_acc"]
-    # df["f_sec_app_open_acc"] = df["sec_app_open_acc"]
-    # df["f_sec_app_revol_util"] = df["sec_app_revol_util"]
-    # df["f_sec_app_open_act_il"] = df["sec_app_open_act_il"]
-    # df["f_sec_app_num_rev_accts"] = df["sec_app_num_rev_accts"]
-    # df["f_sec_app_chargeoff_within_12_mths"] = df["sec_app_chargeoff_within_12_mths"]
-    # df["f_sec_app_collections_12_mths_ex_med"] = df["sec_app_collections_12_mths_ex_med"]
-    # df["f_sec_app_mths_since_last_major_derog"] = df["sec_app_mths_since_last_major_derog"]
-    # TODO: hardship_flag -- check always ['N']
-    # TODO: hardship_type -- check what is this?
-    # TODO: hardship_reason -- check what is this?
-    # TODO: hardship_status -- check what is this?
-    # TODO: deferral_term -- check what is this?
+    buildNumericFeature(df, "sec_app_fico_range_low")
+    buildNumericFeature(df, "sec_app_fico_range_high")
+    # df["f_sec_app_earliest_cr_line"] = df["sec_app_earliest_cr_line"]  # TODO: -- parse date
+    buildNumericFeature(df, "sec_app_inq_last_6mths")
+    buildNumericFeature(df, "sec_app_mort_acc")
+    buildNumericFeature(df, "sec_app_open_acc")
+    buildNumericFeature(df, "sec_app_revol_util")
+    buildNumericFeature(df, "sec_app_open_act_il")
+    buildNumericFeature(df, "sec_app_num_rev_accts")
+    buildNumericFeature(df, "sec_app_chargeoff_within_12_mths")
+    buildNumericFeature(df, "sec_app_collections_12_mths_ex_med")
+    buildNumericFeature(df, "sec_app_mths_since_last_major_derog")
+    buildOneHotEncodingFeature(df, "hardship_flag")
+    buildOneHotEncodingFeature(df, "hardship_type")  # one-hot encode nan
+    buildOneHotEncodingFeature(df, "hardship_reason")  # one-hot encode nan
+    buildOneHotEncodingFeature(df, "hardship_status")  # one-hot encode nan
+    buildNumericFeature(df, "deferral_term")
     buildNumericFeature(df, "hardship_amount")
-    # TODO: hardship_start_date -- check what is this?
-    # TODO: hardship_end_date -- check what is this?
-    # TODO: payment_plan_start_date -- check what is this?
-    # TODO:hardship_length -- check what is this?
-    # TODO: hardship_dpd -- check what is this?
-    # TODO: hardship_loan_status -- check what is this?
+    # TODO: hardship_start_date  # TODO: -- parse date
+    # TODO: hardship_end_date  # TODO: -- parse date
+    # TODO: payment_plan_start_date  # TODO: -- parse date
+    buildNumericFeature(df, "hardship_length")
+    buildNumericFeature(df, "hardship_dpd")
+    buildOneHotEncodingFeature(df, "hardship_loan_status")
     buildNumericFeature(df, "orig_projected_additional_accrued_interest")
     buildNumericFeature(df, "hardship_payoff_balance_amount")
     buildNumericFeature(df, "hardship_last_payment_amount")
-    # TODO: disbursement_method -- check always ['Cash']
-    # TODO: debt_settlement_flag -- one hot encoding of ['N', 'Y']
+    buildOneHotEncodingFeature(df, "disbursement_method")
+    buildOneHotEncodingFeature(df, "debt_settlement_flag")
     # TODO: debt_settlement_flag_date -- parse date format 'Mar-2013' or diff(this, today)??
-    # TODO: settlement_status -- one hot encoding of [nan, 'COMPLETE', 'BROKEN', 'ACTIVE']
+    buildOneHotEncodingFeature(df, "settlement_status")
     # TODO: settlement_date -- parse date format 'Mar-2013' or diff(this, today)??
     buildNumericFeature(df, "settlement_amount")
     buildNumericFeature(df, "settlement_percentage")
