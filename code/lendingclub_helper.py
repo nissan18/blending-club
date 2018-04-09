@@ -82,9 +82,9 @@ def buildFeatures(df):
         'Does not meet the credit policy. Status:Fully Paid',
         'Does not meet the credit policy. Status:Charged Off',
         'Current',
-        'In Grace Period',
         'Late (16-30 days)',
         'Late (31-120 days)',
+        'In Grace Period',
         'Default'
     }
     """
@@ -136,9 +136,9 @@ def buildFeatures(df):
     buildNumericFeature(df, "pub_rec")
     buildNumericFeature(df, "pub_rec_bankruptcies")
     buildOneHotEncodingFeature(df, "purpose")
-    # TODO: pymnt_plan -- always ['n'] for df3a
-    df["f_recoveries"] = df["recoveries"].fillna(0)
-    df["f_revol_bal"] = df["revol_bal"].fillna(0)
+    buildOneHotEncodingFeature(df, "pymnt_plan")
+    buildNumericFeature(df, "recoveries")
+    buildNumericFeature(df, "revol_bal")
     # TODO: revol_util -- parse correctly
     buildOneHotEncodingFeature(df, "sub_grade")
     buildNumericFeature(df, "tax_liens")
@@ -217,18 +217,22 @@ def getLabelColumns(df):
     return pandas_helper.getColumnsByPrefix(df, "l_")
 
 
-
-
-
 def buildNumericFeature(df, col):
-    # TODO: normalize
+    # TODO: consider normalize
     # TODO: consider filling na with mean instead of 0
+    assert(isinstance(df, pd.DataFrame))
+    assert(isinstance(col, str))
+
     df["f_" + col] = df[col].fillna(0)
-    
 
 
 def buildOneHotEncodingFeature(df, col):
-    temp = pandas_helper.getOneHotEncoding(df, col)
-    for c in temp.columns:
-        df["f_" + c] = temp[c]
+    assert(isinstance(df, pd.DataFrame))
+    assert(isinstance(col, str))
 
+    tempCol = "f_" + col
+    df[tempCol] = df[col].fillna(col + "_NULL")  # create temporary column to fill na values
+    temp = pandas_helper.getOneHotEncoding(df, tempCol)
+    for c in temp.columns:
+        df[c] = temp[c]
+    df.drop(tempCol, axis=1, inplace=True)  # drop temporary column
