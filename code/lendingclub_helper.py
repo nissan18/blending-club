@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 from sklearn.svm import SVC
+from dateutil import parser as dateparser
+from datetime import datetime
 
 import columns
 import pandas_helper
@@ -47,11 +49,11 @@ def buildFeatures(df):
     buildNumericFeature(df, "collections_12_mths_ex_med")
     buildNumericFeature(df, "delinq_2yrs")
     buildNumericFeature(df, "delinq_amnt")
-    # TODO: desc -- use NLP?
+    # TODO: desc -- NLP?
     buildNumericFeature(df, "dti")
     buildNumericFeature(df, "dti_joint")
     # TODO: earliest_cr_line -- parse date, format Dec-1994, or better calculate diff(this, today)??
-    # TODO: emp_length -- one hot encoding of ['10+ years', '< 1 year', '1 year', '3 years', '8 years', '9 years', '4 years', '5 years', '6 years', '2 years', '7 years', 'n/a']
+    buildOneHotEncodingFeature(df, "emp_length")  # ['10+ years', '< 1 year', '1 year', '3 years', '8 years', '9 years', '4 years', '5 years', '6 years', '2 years', '7 years', 'n/a']
     # TODO: emp_title -- NLP -- data is pretty random
     buildNumericFeature(df, "fico_range_high")
     buildNumericFeature(df, "fico_range_low")
@@ -89,24 +91,21 @@ def buildFeatures(df):
     }
     """
 
-
-
     buildNumericFeature(df, "max_bal_bc")
-    # TODO: member_id -- looks like always empty, check in all dataSets
-    # df["f_mo_sin_old_il_acct"] = df["mo_sin_old_il_acct"].fillna(0)
-    # df["f_mo_sin_old_rev_tl_op"] = df["mo_sin_old_rev_tl_op"]
-    # df["f_mo_sin_rcnt_rev_tl_op"] = df["mo_sin_rcnt_rev_tl_op"]
-    # df["f_mo_sin_rcnt_tl"] = df["mo_sin_rcnt_tl"]
+    buildNumericFeature(df, "mo_sin_old_il_acct")
+    buildNumericFeature(df, "mo_sin_old_rev_tl_op")
+    buildNumericFeature(df, "mo_sin_rcnt_rev_tl_op")
+    buildNumericFeature(df, "mo_sin_rcnt_tl")
     buildNumericFeature(df, "mort_acc")
-    # df["f_mths_since_last_delinq"] = df["mths_since_last_delinq"]
-    # df["f_mths_since_last_major_derog"] = df["mths_since_last_major_derog"]
-    # df["f_mths_since_last_record"] = df["mths_since_last_record"]
-    # df["f_mths_since_rcnt_il"] = df["mths_since_rcnt_il"]
-    # df["f_mths_since_recent_bc"] = df["mths_since_recent_bc"]
-    # df["f_mths_since_recent_bc_dlq"] = df["mths_since_recent_bc_dlq"]
-    # df["f_mths_since_recent_inq"] = df["mths_since_recent_inq"]
-    # df["f_mths_since_recent_revol_delinq"] = df["mths_since_recent_revol_delinq"]
-    # TODO: next_pymnt_d -- parse date format 'Jan-2016' or diff(this, today)?
+    buildNumericFeature(df, "mths_since_last_delinq")
+    buildNumericFeature(df, "mths_since_last_major_derog")
+    buildNumericFeature(df, "mths_since_last_record")
+    buildNumericFeature(df, "mths_since_rcnt_il")
+    buildNumericFeature(df, "mths_since_recent_bc")
+    buildNumericFeature(df, "mths_since_recent_bc_dlq")
+    buildNumericFeature(df, "mths_since_recent_inq")
+    buildNumericFeature(df, "mths_since_recent_revol_delinq")
+    # buildDateFeature(df, "next_pymnt_d")
     buildNumericFeature(df, "num_accts_ever_120_pd")
     buildNumericFeature(df, "num_actv_bc_tl")
     buildNumericFeature(df, "num_actv_rev_tl")
@@ -139,7 +138,7 @@ def buildFeatures(df):
     buildOneHotEncodingFeature(df, "pymnt_plan")
     buildNumericFeature(df, "recoveries")
     buildNumericFeature(df, "revol_bal")
-    # TODO: revol_util -- parse correctly
+    buildPercentageFeature(df, "revol_util")
     buildOneHotEncodingFeature(df, "sub_grade")
     buildNumericFeature(df, "tax_liens")
     buildOneHotEncodingFeature(df, "term")
@@ -177,9 +176,9 @@ def buildFeatures(df):
     buildNumericFeature(df, "sec_app_collections_12_mths_ex_med")
     buildNumericFeature(df, "sec_app_mths_since_last_major_derog")
     buildOneHotEncodingFeature(df, "hardship_flag")
-    buildOneHotEncodingFeature(df, "hardship_type")  # one-hot encode nan
-    buildOneHotEncodingFeature(df, "hardship_reason")  # one-hot encode nan
-    buildOneHotEncodingFeature(df, "hardship_status")  # one-hot encode nan
+    buildOneHotEncodingFeature(df, "hardship_type")
+    buildOneHotEncodingFeature(df, "hardship_reason")
+    buildOneHotEncodingFeature(df, "hardship_status")
     buildNumericFeature(df, "deferral_term")
     buildNumericFeature(df, "hardship_amount")
     # TODO: hardship_start_date  # TODO: -- parse date
@@ -236,3 +235,27 @@ def buildOneHotEncodingFeature(df, col):
     for c in temp.columns:
         df[c] = temp[c]
     df.drop(tempCol, axis=1, inplace=True)  # drop temporary column
+
+
+def buildPercentageFeature(df, col):
+    assert(isinstance(df, pd.DataFrame))
+    assert(isinstance(col, str))
+
+    f_col = "f_" + col
+    df[f_col] = df[col].str.strip("%").astype(float)/100
+    df[f_col] = df[f_col].fillna(df[f_col].mean())
+
+
+def buildDateFeature(df, col):
+    assert(isinstance(df, pd.DataFrame))
+    assert(isinstance(col, str))
+
+    month_col = col + "_month"
+    df[month_col] = pd.to_datetime(df["next_pymnt_d"]).dt.strftime('%b')
+    buildOneHotEncodingFeature(df, month_col)
+    df.drop(month_col, axis=1, inplace=True)  # drop temporary column
+
+    f_diff = "f_{0}_diff".format(col)
+    today = datetime.today()
+    df[f_diff] = (today - pd.to_datetime(df[col]))/np.timedelta64(1, "D")
+    df[f_diff] = df[f_diff].fillna(df[f_diff].mean())

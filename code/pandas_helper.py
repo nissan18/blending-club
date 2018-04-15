@@ -9,6 +9,13 @@ def readData(filename):
     return pd.read_csv(filename, dtype=columns.dtypes)
 
 
+def writeData(df, filename):
+    assert(isinstance(df, pd.DataFrame))
+    assert(isinstance(filename, str))
+
+    df.to_csv(filename, index=False)
+
+
 def getColumnsByPrefix(df, prefix):
     assert(isinstance(df, pd.DataFrame))
     assert(isinstance(prefix, str))
