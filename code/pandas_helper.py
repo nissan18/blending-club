@@ -1,12 +1,10 @@
 import pandas as pd
 
-import columns
 
-
-def readData(filename):
+def readData(filename, dtypes):
     assert(isinstance(filename, str))
 
-    return pd.read_csv(filename, dtype=columns.dtypes)
+    return pd.read_csv(filename, dtype=dtypes)
 
 
 def writeData(df, filename):
