@@ -3,7 +3,7 @@ import pandas as pd
 
 import definitions
 import pandas_helper
-
+import lendingclub_helper
 
 def main():
     df = pd.DataFrame()
@@ -13,7 +13,7 @@ def main():
     for key in definitions.dataFiles:
         filename = definitions.dataFiles[key]
         print("Reading " + filename)
-        dataFrames.append(pandas_helper.readData(filename))
+        dataFrames.append(pandas_helper.readData(filename, lendingclub_helper.dtypes))
 
     print("Combining dataFrames")
     df = pd.concat(dataFrames)

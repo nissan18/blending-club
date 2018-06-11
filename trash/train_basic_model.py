@@ -1,7 +1,6 @@
 import pandas
 import numpy as np
 
-import columns
 import definitions
 import pandas_helper
 import scikit_helper
@@ -28,7 +27,7 @@ def main():
     print("Generate model for " + key)
     print("Reading data...")
     dataFile = definitions.dataFiles[key]
-    dataFrame = pandas_helper.readData(dataFile)
+    dataFrame = pandas_helper.readData(dataFile, lendingclub_helper.dtypes)
 
     print("Building features...")
     lendingclub_helper.buildFeatures(dataFrame)

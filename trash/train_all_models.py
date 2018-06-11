@@ -13,7 +13,7 @@ def main():
         begin = time.time()
         print("Processing: " + key)
 
-        df = pandas_helper.readData(definitions.dataFiles[key])
+        df = pandas_helper.readData(definitions.dataFiles[key], lendingclub_helper.dtypes)
 
         lendingclub_helper.buildFeatures(df)
         featureColumns = lendingclub_helper.getFeatureColumns(df)
