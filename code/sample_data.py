@@ -13,7 +13,7 @@ import pandas as pd
 def main():
     print("Begin: " + __file__)
 
-    filename = "../data/everything.csv"
+    filename = "../data/all_loans.csv"
     df = pandas_helper.readData(filename, lendingclub_helper.dtypes)
     df.sample(1000).to_csv("sample.csv", index=False)
 

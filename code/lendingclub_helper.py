@@ -163,6 +163,8 @@ dtypes = {  # TODO: possibly consider trimming memory footprint later
 }
 
 def getFinishedLoans(df):
+    assert(isinstance(df, pd.DataFrame))
+
     finishedStatuses = ['Fully Paid',
                         'Charged Off',
                         'Does not meet the credit policy. Status:Fully Paid',
@@ -358,24 +360,29 @@ def getFeatureColumns(df):
 
     return pandas_helper.getColumnsByPrefix(df, "f_")
 
+def parse_loan_status(value):
+    convert = {
+        'Fully Paid': 1,
+        'Charged Off': 0,
+        'Does not meet the credit policy. Status:Fully Paid': 1,
+        'Does not meet the credit policy. Status:Charged Off': 0,
+        'Current': None,
+        'Late (16-30 days)': None,
+        'Late (31-120 days)': None,
+        'In Grace Period': None,
+        'Default': None
+    }
+    assert(value in convert)
+    return convert[value]
 
-def buildLabels(df):
-    def parse_loan_status(value):
-        convert = {
-            'Fully Paid': 1,
-            'Charged Off': 0,
-            'Does not meet the credit policy. Status:Fully Paid': 1,
-            'Does not meet the credit policy. Status:Charged Off': 0,
-            'Current': None,
-            'Late (16-30 days)': None,
-            'Late (31-120 days)': None,
-            'In Grace Period': None,
-            'Default': None
-        }
-        assert(value in convert)
-        return convert[value]
 
-    df["l_loan_status"] = df["loan_status"].apply(parse_loan_status)
+def buildCategorialLabel(df, col, parse_function):
+    assert(isinstance(df, pd.DataFrame))
+    assert(isinstance(col, str))
+    # TODO: assert parse_function????
+
+    label_col = "l_" + col
+    df[label_col] = df[col].apply(parse_function)
 
 
 def getLabelColumns(df):
