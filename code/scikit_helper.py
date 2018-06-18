@@ -8,7 +8,7 @@ import numpy as np
 def trainModel(X, y):
     assert(isinstance(X, np.ndarray))
     assert(isinstance(y, np.ndarray))
-    assert(len(y.shape) == 1)
+    assert(len(y.shape) == 1), y.shape
     assert(X.shape[0] == y.shape[0])
 
     clf = SVC()

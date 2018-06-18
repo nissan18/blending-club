@@ -426,7 +426,7 @@ def buildDateFeature(df, col):
     assert(isinstance(col, str))
 
     month_col = col + "_month"  # create temporary column to parse month name
-    df[month_col] = pd.to_datetime(df["next_pymnt_d"]).dt.strftime('%b')
+    df[month_col] = pd.to_datetime(df[col]).dt.strftime('%b').replace("NaT", "NULL")  # handle nan dates in df[col]
     buildOneHotEncodingFeature(df, month_col)
     df.drop(month_col, axis=1, inplace=True)  # drop temporary column
 
