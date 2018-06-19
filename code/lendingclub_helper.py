@@ -425,6 +425,8 @@ def buildDateFeature(df, col):
     assert(isinstance(df, pd.DataFrame))
     assert(isinstance(col, str))
 
+
+    # TODO: build all months for all date coluimns one-hot encoding (otherwise missing month columns in some datasets)
     month_col = col + "_month"  # create temporary column to parse month name
     df[month_col] = pd.to_datetime(df[col]).dt.strftime('%b').replace("NaT", "NULL")  # handle nan dates in df[col]
     buildOneHotEncodingFeature(df, month_col)
@@ -433,5 +435,4 @@ def buildDateFeature(df, col):
     f_diff = "f_{0}_diff".format(col)
     today = datetime.today()
     df[f_diff] = (today - pd.to_datetime(df[col]))/np.timedelta64(1, "D")
-    df[f_diff] = df[f_diff].fillna(df[f_diff].mean())
-
+    df[f_diff] = df[f_diff].fillna(0)  # if want to fill with mean, check if mean is not nan
