@@ -4,6 +4,7 @@ import pandas as pd
 from dateutil import parser as dateparser
 from datetime import datetime
 
+import definitions
 import pandas_helper
 
 
@@ -400,16 +401,31 @@ def buildNumericFeature(df, col):
     df["f_" + col] = df[col].fillna(0)
 
 
-def buildOneHotEncodingFeature(df, col):
+def buildOneHotEncodingFeature(df, col, values=None):
     assert(isinstance(df, pd.DataFrame))
     assert(isinstance(col, str))
+    assert (values is None or isinstance(values, list)), "This should be a list: {0}".format(values)
+
+    if "NULL" not in values:
+        values.append("NULL")
 
     tempCol = "f_" + col
     df[tempCol] = df[col].fillna(col + "_NULL")  # create temporary column to fill na values
+    real_values = df[tempCol].values
+    assert (values is None or set(real_values).issubset(set(values))), "First set should be a subset of the second:\n{0}\n{1}".format(set(real_values), set(values))
+
     temp = pandas_helper.getOneHotEncoding(df, tempCol)
     for c in temp.columns:
         df[c] = temp[c]
     df.drop(tempCol, axis=1, inplace=True)  # drop temporary column
+
+    # fill remaining columns
+    if values is not None:
+        length = df.shape[0]
+        for val in values:
+            col_name = tempCol + "_" + val
+            if col_name not in df.columns:
+                df[col_name] = 0 * np.ones(length)
 
 
 def buildPercentageFeature(df, col):
@@ -426,10 +442,9 @@ def buildDateFeature(df, col):
     assert(isinstance(col, str))
 
 
-    # TODO: build all months for all date coluimns one-hot encoding (otherwise missing month columns in some datasets)
     month_col = col + "_month"  # create temporary column to parse month name
     df[month_col] = pd.to_datetime(df[col]).dt.strftime('%b').replace("NaT", "NULL")  # handle nan dates in df[col]
-    buildOneHotEncodingFeature(df, month_col)
+    buildOneHotEncodingFeature(df, month_col, values=definitions.months)
     df.drop(month_col, axis=1, inplace=True)  # drop temporary column
 
     f_diff = "f_{0}_diff".format(col)

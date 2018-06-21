@@ -12,3 +12,5 @@ dataFiles = {
     "2017Q3": "../data/LoanStats_securev1_2017Q3.csv",
     "2017Q4": "../data/LoanStats_securev1_2017Q4.csv"
 }
+
+months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
