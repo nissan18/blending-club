@@ -197,7 +197,7 @@ def buildFeatures(df):
     buildNumericFeature(df, "all_util")
     buildNumericFeature(df, "annual_inc")
     buildNumericFeature(df, "annual_inc_joint")
-    buildOneHotEncodingFeature(df, "application_type")  # ['Individual' 'Joint App']
+    buildOneHotEncodingFeature(df, "application_type")
     buildNumericFeature(df, "avg_cur_bal")
     buildNumericFeature(df, "bc_open_to_buy")
     buildNumericFeature(df, "bc_util")
@@ -210,14 +210,14 @@ def buildFeatures(df):
     buildNumericFeature(df, "dti")
     buildNumericFeature(df, "dti_joint")
     buildDateFeature(df, "earliest_cr_line")
-    buildOneHotEncodingFeature(df, "emp_length")  # ['10+ years', '< 1 year', '1 year', '3 years', '8 years', '9 years', '4 years', '5 years', '6 years', '2 years', '7 years', 'n/a']
+    buildOneHotEncodingFeature(df, "emp_length")
     # TODO: emp_title -- NLP -- data is pretty random
     buildNumericFeature(df, "fico_range_high")
     buildNumericFeature(df, "fico_range_low")
     buildNumericFeature(df, "funded_amnt")
     buildNumericFeature(df, "funded_amnt_inv")
     buildOneHotEncodingFeature(df, "grade")
-    buildOneHotEncodingFeature(df, "home_ownership")  # ['NONE', 'OWN', 'RENT', 'ANY', 'OTHER', 'MORTGAGE']
+    buildOneHotEncodingFeature(df, "home_ownership")
     # TODO: id -- don't need this for real model, maybe add to test for noise
     buildNumericFeature(df, "il_util")
     buildOneHotEncodingFeature(df, "initial_list_status")
