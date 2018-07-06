@@ -5,14 +5,27 @@ import sys
 import definitions
 import pandas_helper
 import scikit_helper
-import lendingclub_helper
+import lendingclub_helper as l
 
 
 def main():
     print("Begin: " + __file__)
-    
-    df = pandas_helper.readData("sample.csv")
-    lendingclub_helper.buildFeatures(df)
+
+    a = l.dtypes
+    b = l.columns
+
+    for i in range(len(l.columns)):
+        item = l.columns[i]
+        if item["dtype"] != a[item["name"]]:
+            print("item: ", item)
+            print("dtype: ", a[item["name"]])
+            break
+    # b = { { x["name"]: x["dtype"] } for x in l.columns }
+
+    # print(len(a.keys()))
+    # print(len(b.keys()))
+
+
 
     print("End: " + __file__)
 
