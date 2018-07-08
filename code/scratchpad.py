@@ -11,21 +11,9 @@ import lendingclub_helper as l
 def main():
     print("Begin: " + __file__)
 
-    a = l.dtypes
-    b = l.columns
-
-    for i in range(len(l.columns)):
-        item = l.columns[i]
-        if item["dtype"] != a[item["name"]]:
-            print("item: ", item)
-            print("dtype: ", a[item["name"]])
-            break
-    # b = { { x["name"]: x["dtype"] } for x in l.columns }
-
-    # print(len(a.keys()))
-    # print(len(b.keys()))
-
-
+    b = [c for c in l.columns if c["feature"] == "one-hot encoding"]
+    print("len = ", len(b))
+    print(b)
 
     print("End: " + __file__)
 
