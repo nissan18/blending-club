@@ -188,8 +188,6 @@ def extractData(df, features):
     return df[features].values, df["loan_status"].apply(convertLoanStatus).values
 
 
-
-
 def buildFeatures(df):
     buildNumericFeature(df, "acc_now_delinq")
     buildNumericFeature(df, "acc_open_past_24mths")
@@ -451,3 +449,14 @@ def buildDateFeature(df, col):
     today = datetime.today()
     df[f_diff] = (today - pd.to_datetime(df[col]))/np.timedelta64(1, "D")
     df[f_diff] = df[f_diff].fillna(0)  # if want to fill with mean, check if mean is not nan
+
+
+def build_features_by_columns(df, feature_columns):
+    for col in feature_columns:
+        if col["feature"]["type"] == "numeric":
+            buildNumericFeature(df, col["name"])
+        elif col["feature"]["type"] == "one-hot encoding":
+            buildOneHotEncodingFeature(df, col["name"], col["feature"]["values"])
+        else:
+            raise Exception("Unsuported feature_type: {}".format(col["feature"]["type"]))
+

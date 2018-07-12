@@ -2,12 +2,38 @@
 List of data columns with their metadata and helper functions
 """
 
+def get_feature_types():
+    return sorted(list(set([c["feature"]["type"] for c in columns])))
+
+
+def get_column_names():
+    return sorted(list(set([c["name"] for c in columns])))
+
+
 def get_columns_by_feature_type(feature_type):
+    assert (isinstance(feature_type, str)), "feature_type must be str"
+    assert (feature_type in get_feature_types()), "Invalid feature type: {}".format(feature_type)
+
     return [c for c in columns if c["feature"]["type"] == feature_type]
+
+
+def get_columns_by_feature_types(feature_types):
+    assert (isinstance(feature_types, list)), "feature_types but be a list of strings"
+    assert all([x in get_feature_types() for x in feature_types]), "Invalid feature type in: {}".format(feature_types)
+
+    return [c for c in columns if c["feature"]["type"] == feature_types]
+
+
+def get_columns_by_names(column_names):
+    assert (isinstance(column_names, list)), "column_names has to be a list of column names"
+    assert all([x in get_column_names() for x in column_names]), "Invalid column name in: {}".format(column_names)
+
+    return [c for c in columns if c["name"] in column_names]
 
 
 def get_dtypes_by_name():
     return {c["name"] : c["dtype"] for c in columns}
+
 
 
 columns = [
@@ -891,6 +917,7 @@ columns = [
                 "F4",
                 "F5",
                 "G1",
+                "G2",
                 "G4",
                 "G5"
             ] 
