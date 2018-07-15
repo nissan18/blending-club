@@ -8,7 +8,7 @@ import lendingclub_helper
 class LendingClub_Pipeline:
 
     def __init__(self):
-        self.sooka = "pipeline"
+        pass
 
 
     def run(self, trainset_filename, testset_filename):

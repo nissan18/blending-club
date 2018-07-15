@@ -942,7 +942,7 @@ columns = [
     {
         "name": "title",
         "dtype": str,
-        "feature": { "type": "NLP" }  # TODO: title -- nlp?
+        "feature": { "type": "NLP" }
     },
     {
         "name": "tot_coll_amt",
@@ -1022,7 +1022,7 @@ columns = [
     {
         "name": "url",
         "dtype": str,
-        "feature": { "type": "don't parse" }  # TODO: url -- check probably always https://lendingclub.com/browse/loanDetail.action?loan_id=<id>
+        "feature": { "type": "don't parse" }  # check probably always https://lendingclub.com/browse/loanDetail.action?loan_id=<id>
     },
     {
         "name": "verification_status",

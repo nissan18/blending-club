@@ -8,8 +8,7 @@ def validate_one_hot_encoding_columns(df):
 
     """
     make sure all non-nan values in df are in lendingclub_columns.columns
-    TODO: for now print all errors to stderr, later use logger
-    TODO: for now ignore nan values, later maybe put fillna into lendingclub_columns.columns
+    here ignore nan values, when building the feature they will be replacted with <col_name>_NULL
     """
     columns = lendingclub_columns.get_columns_by_feature_type("one-hot encoding")
 
