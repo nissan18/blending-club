@@ -26,24 +26,45 @@ class LendingClub_Pipeline:
         accuracy_test = self.getAccuracy(model, df_test)
         print("Test accuracy: {}".format(accuracy_test))
 
-        # # Smoking section
-        # df_smoke = pd.DataFrame([
-        #     { "annual_inc": 100000, "sub_grade": "A1"},
-        #     { "annual_inc": 100000, "sub_grade": "B1"},
-        #     { "annual_inc": 100000, "sub_grade": "C1"},
-        #     { "annual_inc": 100000, "sub_grade": "D1"},
-        #     { "annual_inc": 100000, "sub_grade": "E1"},
-        #     { "annual_inc": 100000, "sub_grade": "F1"},
-        #     { "annual_inc": 100000, "sub_grade": "G1"},
-        # ])
-        # feature_column_defs = lendingclub_columns.get_columns_by_names(self.featurize_columns)
-        # lendingclub_helper.build_features_by_columns(df_smoke, feature_column_defs)
+        self.smokeTest(model)
 
-        # for i in range(7):
-        #     print(df_smoke[[i]])
-        #     break
-        # accuracy_smoke = self.getAccuracy(model, df_smoke)
-        # print("Smoke accuracy: {}".format(accuracy_smoke))
+        print(model)
+
+    
+    def smokeTest(self, model):
+        smoke_data = [
+            { "annual_inc": 100000000, "sub_grade": "A1"},
+            { "annual_inc": 100000, "sub_grade": "B1"},
+            { "annual_inc": 100000, "sub_grade": "C1"},
+            { "annual_inc": 100000, "sub_grade": "D1"},
+            { "annual_inc": 100000, "sub_grade": "E1"},
+            { "annual_inc": 100000, "sub_grade": "F1"},
+            { "annual_inc": 100000, "sub_grade": "G1"},
+            { "annual_inc": 50000, "sub_grade": "A1"},
+            { "annual_inc": 50000, "sub_grade": "B1"},
+            { "annual_inc": 50000, "sub_grade": "C1"},
+            { "annual_inc": 50000, "sub_grade": "D1"},
+            { "annual_inc": 50000, "sub_grade": "E1"},
+            { "annual_inc": 50000, "sub_grade": "F1"},
+            { "annual_inc": 50000, "sub_grade": "G1"},
+            { "annual_inc": 10000, "sub_grade": "A1"},
+            { "annual_inc": 10000, "sub_grade": "B1"},
+            { "annual_inc": 10000, "sub_grade": "C1"},
+            { "annual_inc": 10000, "sub_grade": "D1"},
+            { "annual_inc": 10000, "sub_grade": "E1"},
+            { "annual_inc": 10000, "sub_grade": "F1"},
+            { "annual_inc": 46000, "sub_grade": "C4"},
+        ]
+        df_smoke = pd.DataFrame(smoke_data)
+        feature_column_defs = lendingclub_columns.get_columns_by_names(self.featurize_columns)
+        lendingclub_helper.build_features_by_columns(df_smoke, feature_column_defs)
+
+        feature_columns = lendingclub_helper.getFeatureColumns(df_smoke)
+
+        X = df_smoke[feature_columns].values
+
+        for i in range(len(smoke_data)):
+            print(smoke_data[i], "prediction: {}".format(model.predict(X[[i]])))
 
 
     def getAccuracy(self, model, df):
