@@ -5,6 +5,7 @@ import scikit_helper
 
 import lendingclub_columns
 import lendingclub_helper
+from lendingclub_models import ConstantClassifier
 
 
 class LendingClub_Pipeline:
@@ -25,12 +26,22 @@ class LendingClub_Pipeline:
         df_test = pandas_helper.readData(testset_filename, lendingclub_columns.get_dtypes_by_name())
         accuracy_test = self.getAccuracy(model, df_test)
         print("Test accuracy: {}".format(accuracy_test))
+        print(model)
 
         self.smokeTest(model)
 
-        print(model)
+        constant = ConstantClassifier(0)
+        accuracy = self.getAccuracy(constant, df_train)
+        print("Const 0 accurary on train set: {}".format(accuracy))
+        accuracy = self.getAccuracy(constant, df_test)
+        print("Const 0 accurary on test set: {}".format(accuracy))
 
-    
+        constant = ConstantClassifier(1)
+        accuracy = self.getAccuracy(constant, df_train)
+        print("Const 1 accurary on train set: {}".format(accuracy))
+        accuracy = self.getAccuracy(constant, df_test)
+        print("Const 1 accurary on test set: {}".format(accuracy))
+
     def smokeTest(self, model):
         smoke_data = [
             { "annual_inc": 100000000, "sub_grade": "A1"},
