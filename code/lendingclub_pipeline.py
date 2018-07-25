@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.dummy import DummyClassifier
 
 import pandas_helper
 import scikit_helper
@@ -20,27 +21,35 @@ class LendingClub_Pipeline:
         model = self.buildModel(df_train)
         print(model)
 
-        accuracy_train = self.getAccuracy(model, df_train)
-        print("Train accuracy: {}".format(accuracy_train))
+        print("Test accuracy: {}".format(self.getAccuracy(model, df_train)))
+        print("Train score: {}".format(self.getScore(model, df_train)))
 
         df_test = pandas_helper.readData(testset_filename, lendingclub_columns.get_dtypes_by_name())
-        accuracy_test = self.getAccuracy(model, df_test)
-        print("Test accuracy: {}".format(accuracy_test))
+        print("Test accuracy: {}".format(self.getAccuracy(model, df_test)))
+        print("Test score: {}".format(self.getScore(model, df_test)))
         print(model)
 
-        self.smokeTest(model)
+        # self.smokeTest(model)
 
-        constant = ConstantClassifier(0)
-        accuracy = self.getAccuracy(constant, df_train)
-        print("Const 0 accurary on train set: {}".format(accuracy))
-        accuracy = self.getAccuracy(constant, df_test)
-        print("Const 0 accurary on test set: {}".format(accuracy))
+        """
+        TODO: answer questions
+        1. What is clf.score? If it's tests accuracy, replace propriatory function
+        2. Why do I need to "fit" constant DummyClassifier
+        """
 
-        constant = ConstantClassifier(1)
-        accuracy = self.getAccuracy(constant, df_train)
+        clf = scikit_helper.get_constant_classifier(0)
+        accuracy = self.getAccuracy(clf, df_train)
         print("Const 1 accurary on train set: {}".format(accuracy))
-        accuracy = self.getAccuracy(constant, df_test)
+        accuracy = self.getAccuracy(clf, df_test)
         print("Const 1 accurary on test set: {}".format(accuracy))
+        clf = scikit_helper.get_constant_classifier(1)
+        accuracy = self.getAccuracy(clf, df_train)
+        print("Const 1 accurary on train set: {}".format(accuracy))
+        accuracy = self.getAccuracy(clf, df_test)
+        print("Const 1 accurary on test set: {}".format(accuracy))
+
+        # clf = clf = DummyClassifier(strategy='most_frequent',random_state=0)
+
 
     def smokeTest(self, model):
         smoke_data = [
@@ -88,6 +97,17 @@ class LendingClub_Pipeline:
 
         accuracy = scikit_helper.getAccuracy(model, X, y)
         return accuracy
+
+    def getScore(self, model, df):
+        self.buildFeaturesAndLabels(df)
+        feature_columns = lendingclub_helper.getFeatureColumns(df)
+        label_columns = lendingclub_helper.getLabelColumns(df)
+
+        X = df[feature_columns].values
+        y = df[label_columns[0]].values
+
+        score = model.score(X, y)
+        return score
 
     def buildModel(self, df):
         self.buildFeaturesAndLabels(df)

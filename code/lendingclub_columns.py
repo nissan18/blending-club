@@ -31,6 +31,20 @@ def get_columns_by_names(column_names):
     return [c for c in columns if c["name"] in column_names]
 
 
+def get_feature_column_names(column_names):
+    assert (isinstance(column_names, list)), "column_names has to be a list of column names"
+    assert all([x in get_column_names() for x in column_names]), "Invalid column name in: {}".format(column_names)
+
+    raise "implement this crap: should depent on the feature_type, etc..."  # TODO: implement
+
+
+def get_feature_column_name(column_name):
+    assert (isinstance(column_name, str)), "column_name must be str"
+    assert (column_name in get_column_names()), "Invalid column name: {}".format(column_name)
+
+    raise "implement this crap: should depent on the feature_type, etc..."  # TODO: implement
+
+
 def get_dtypes_by_name():
     return {c["name"] : c["dtype"] for c in columns}
 
