@@ -21,32 +21,21 @@ class LendingClub_Pipeline:
         model = self.buildModel(df_train)
         print(model)
 
-        print("Test accuracy: {}".format(self.getAccuracy(model, df_train)))
-        print("Train score: {}".format(self.getScore(model, df_train)))
+        print("Train accuracy: {}".format(self.getAccuracy(model, df_train)))
 
         df_test = pandas_helper.readData(testset_filename, lendingclub_columns.get_dtypes_by_name())
         print("Test accuracy: {}".format(self.getAccuracy(model, df_test)))
-        print("Test score: {}".format(self.getScore(model, df_test)))
-        print(model)
 
         # self.smokeTest(model)
 
-        """
-        TODO: answer questions
-        1. What is clf.score? If it's tests accuracy, replace propriatory function
-        2. Why do I need to "fit" constant DummyClassifier
-        """
+        clf_0 = scikit_helper.get_constant_classifier(0)
+        clf_1 = scikit_helper.get_constant_classifier(1)
 
-        clf = scikit_helper.get_constant_classifier(0)
-        accuracy = self.getAccuracy(clf, df_train)
-        print("Const 1 accurary on train set: {}".format(accuracy))
-        accuracy = self.getAccuracy(clf, df_test)
-        print("Const 1 accurary on test set: {}".format(accuracy))
-        clf = scikit_helper.get_constant_classifier(1)
-        accuracy = self.getAccuracy(clf, df_train)
-        print("Const 1 accurary on train set: {}".format(accuracy))
-        accuracy = self.getAccuracy(clf, df_test)
-        print("Const 1 accurary on test set: {}".format(accuracy))
+        print("Const 0 accurary on train set: {}".format(self.getAccuracy(clf_0, df_train)))
+        print("Const 1 accurary on train set: {}".format(self.getAccuracy(clf_1, df_train)))
+
+        print("Const 0 accurary on test set: {}".format(self.getAccuracy(clf_0, df_test)))
+        print("Const 1 accurary on test set: {}".format(self.getAccuracy(clf_1, df_test)))
 
         # clf = clf = DummyClassifier(strategy='most_frequent',random_state=0)
 
@@ -95,19 +84,8 @@ class LendingClub_Pipeline:
         X = df[feature_columns].values
         y = df[label_columns[0]].values
 
-        accuracy = scikit_helper.getAccuracy(model, X, y)
+        accuracy = scikit_helper.get_accuracy(model, X, y)
         return accuracy
-
-    def getScore(self, model, df):
-        self.buildFeaturesAndLabels(df)
-        feature_columns = lendingclub_helper.getFeatureColumns(df)
-        label_columns = lendingclub_helper.getLabelColumns(df)
-
-        X = df[feature_columns].values
-        y = df[label_columns[0]].values
-
-        score = model.score(X, y)
-        return score
 
     def buildModel(self, df):
         self.buildFeaturesAndLabels(df)

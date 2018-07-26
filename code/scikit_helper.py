@@ -17,7 +17,7 @@ def trainModel(X, y):
     return clf
 
 
-def getAccuracy(clf, X, y):
+def get_accuracy(clf, X, y):
     assert(isinstance(clf, ClassifierMixin))
     assert (isinstance(X, np.ndarray)), "X must be np.ndarray"
     assert (isinstance(y, np.ndarray)), "y must be np.ndarray"
