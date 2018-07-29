@@ -21,7 +21,14 @@ def get_columns_by_feature_types(feature_types):
     assert (isinstance(feature_types, list)), "feature_types but be a list of strings"
     assert all([x in get_feature_types() for x in feature_types]), "Invalid feature type in: {}".format(feature_types)
 
-    return [c for c in columns if c["feature"]["type"] == feature_types]
+    return [c for c in columns if c["feature"]["type"] in feature_types]
+
+
+def get_column_by_name(column_name):
+    assert (isinstance(column_name, str)), "column_name has to be a str"
+    assert (column_name in get_column_names()), "Invalid column name: {}".format(column_name)
+
+    return [c for c in columns if c["name"] == column_name][0]
 
 
 def get_columns_by_names(column_names):
@@ -31,18 +38,29 @@ def get_columns_by_names(column_names):
     return [c for c in columns if c["name"] in column_names]
 
 
-def get_feature_column_names(column_names):
+def get_feature_names_by_columns(column_names):
     assert (isinstance(column_names, list)), "column_names has to be a list of column names"
     assert all([x in get_column_names() for x in column_names]), "Invalid column name in: {}".format(column_names)
 
-    raise "implement this crap: should depent on the feature_type, etc..."  # TODO: implement
+    feature_column_names = []
+    for c in column_names:
+        feature_column_names = feature_column_names + get_feature_names_by_column(c)
+    return feature_column_names
 
 
-def get_feature_column_name(column_name):
+def get_feature_names_by_column(column_name):
     assert (isinstance(column_name, str)), "column_name must be str"
     assert (column_name in get_column_names()), "Invalid column name: {}".format(column_name)
 
-    raise "implement this crap: should depent on the feature_type, etc..."  # TODO: implement
+    column_def = get_column_by_name(column_name)
+    feature_type = column_def["feature"]["type"]
+    if feature_type == "numeric":
+        return ["f_{}".format(column_def["name"])]
+    elif feature_type == "one-hot encoding":
+        values = column_def["feature"]["values"] + ["NULL"]
+        return ["f_{}_{}".format(column_def["name"], v) for v in values]
+
+    raise Exception("Unsupported feature type: {}".format(feature_type))  # TODO: use unsupported something error
 
 
 def get_dtypes_by_name():
@@ -264,8 +282,8 @@ columns = [
                 "7 years",
                 "8 years",
                 "9 years",
-                "10+ years",
-                "n/a"
+                "10+ years"
+                # "n/a"  # TODO: check, I think this came here by mistake   
             ]
         }
     },

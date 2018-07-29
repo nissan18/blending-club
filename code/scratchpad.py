@@ -16,6 +16,14 @@ from lendingclub_pipeline import LendingClub_Pipeline
 def main():
     print("Begin: " + __file__)
 
+
+    print([c for c in lendingclub_columns.columns if c["name"] == "sub_grade"])
+
+    # feature_columns = lendingclub_columns.get_feature_column_name("desc")
+    # print(feature_columns)
+
+
+    return
     # filename = "sample.csv"
     # filename = "finished_test_sample.csv"
     filename = "finished_train_sample.csv"

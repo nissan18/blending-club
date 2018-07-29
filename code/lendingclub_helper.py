@@ -163,8 +163,8 @@ dtypes = {  # TODO: possibly consider trimming memory footprint later
     'zip_code': str
 }
 
-def getFinishedLoans(df):
-    assert(isinstance(df, pd.DataFrame))
+def get_finished_loans(df):
+    assert (isinstance(df, pd.DataFrame)), "df must be pd.DataFrame"
 
     finishedStatuses = ['Fully Paid',
                         'Charged Off',
@@ -354,7 +354,7 @@ def buildFeatures(df):
     buildNumericFeature(df, "settlement_term")
 
 
-def getFeatureColumns(df):
+def get_feature_columns(df):
     assert(isinstance(df, pd.DataFrame))
 
     return pandas_helper.getColumnsByPrefix(df, "f_")
@@ -405,10 +405,10 @@ def buildOneHotEncodingFeature(df, col, values=None):
     assert (values is None or isinstance(values, list)), "This should be a list: {0}".format(values)
 
     if "NULL" not in values:
-        values.append("NULL")
+        values = values + ["NULL"]
 
     tempCol = "f_" + col
-    df[tempCol] = df[col].fillna(col + "_NULL")  # create temporary column to fill na values
+    df[tempCol] = df[col].fillna("NULL")  # create temporary column to fill na values
     real_values = df[tempCol].values
     assert (values is None or set(real_values).issubset(set(values))), "First set should be a subset of the second:\n{0}\n{1}".format(set(real_values), set(values))
 
