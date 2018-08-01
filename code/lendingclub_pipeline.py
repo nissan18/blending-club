@@ -28,12 +28,12 @@ class LendingClub_Pipeline:
         self.feature_column_defs = lendingclub_columns.get_columns_by_names(self.featurize_columns)
         self.feature_columns = lendingclub_columns.get_feature_names_by_columns(self.featurize_columns)
 
-        df_train = pandas_helper.readData(trainset_filename, lendingclub_columns.get_dtypes_by_name())
+        df_train = pandas_helper.read_data(trainset_filename, lendingclub_columns.get_dtypes_by_name())
         model = self.buildModel(df_train)
         print(model)
 
         print("Train accuracy: {}".format(self.getAccuracy(model, df_train)))
-        df_test = pandas_helper.readData(testset_filename, lendingclub_columns.get_dtypes_by_name())
+        df_test = pandas_helper.read_data(testset_filename, lendingclub_columns.get_dtypes_by_name())
         print("Test accuracy: {}".format(self.getAccuracy(model, df_test)))
 
         # self.smokeTest(model)

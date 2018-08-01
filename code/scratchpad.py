@@ -32,7 +32,7 @@ def main():
     labelize_columns = ["loan_status"]
 
 
-    df = pandas_helper.readData(filename, lendingclub_columns.get_dtypes_by_name())
+    df = pandas_helper.read_data(filename, lendingclub_columns.get_dtypes_by_name())
 
     feature_column_defs = lendingclub_columns.get_columns_by_names(featurize_columns)
     lendingclub_helper.build_features_by_columns(df, feature_column_defs)

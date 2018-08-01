@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def readData(filename, dtypes):
+def read_data(filename, dtypes):
     assert(isinstance(filename, str))
 
     return pd.read_csv(filename, dtype=dtypes)
@@ -14,7 +14,7 @@ def writeData(df, filename):
     df.to_csv(filename, index=False)
 
 
-def getColumnsByPrefix(df, prefix):
+def get_columns_by_prefix(df, prefix):
     assert(isinstance(df, pd.DataFrame))
     assert(isinstance(prefix, str))
 

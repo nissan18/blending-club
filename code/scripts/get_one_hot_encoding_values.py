@@ -14,10 +14,10 @@ def main():
         l = len(c["feature"]["values"])
         if l == 0:
             print("{} has NO values".format(c["name"]))
-        # else:
-        #     print("{} has {} values".format(c["name"], l))
+        else:
+            print("{} has {} values".format(c["name"], l))
     
-    # df = pandas_helper.readData(filename, lendingclub_columns.get_dtypes_by_name())
+    # df = pandas_helper.read_data(filename, lendingclub_columns.get_dtypes_by_name())
 
 
     # all_values = {}

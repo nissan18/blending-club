@@ -357,7 +357,7 @@ def buildFeatures(df):
 def get_feature_columns(df):
     assert(isinstance(df, pd.DataFrame))
 
-    return pandas_helper.getColumnsByPrefix(df, "f_")
+    return pandas_helper.get_columns_by_prefix(df, "f_")
 
 def parse_loan_status(value):
     convert = {
@@ -387,7 +387,7 @@ def buildCategorialLabel(df, col, parse_function):
 def getLabelColumns(df):
     assert(isinstance(df, pd.DataFrame))
 
-    return pandas_helper.getColumnsByPrefix(df, "l_")
+    return pandas_helper.get_columns_by_prefix(df, "l_")
 
 
 def buildNumericFeature(df, col):

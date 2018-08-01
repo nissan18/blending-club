@@ -2,7 +2,6 @@ import time
 import logging
 import sys
 
-import definitions
 import pandas_helper
 import scikit_helper
 import lendingclub_helper
