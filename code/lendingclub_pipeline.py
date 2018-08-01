@@ -5,8 +5,7 @@ import pandas_helper
 import scikit_helper
 
 import lendingclub_columns
-import lendingclub_helper
-from lendingclub_models import ConstantClassifier
+import lendingclub_features
 
 
 class LendingClub_Pipeline:
@@ -72,7 +71,7 @@ class LendingClub_Pipeline:
             { "annual_inc": 46000, "sub_grade": "C4"},
         ]
         df_smoke = pd.DataFrame(smoke_data)
-        lendingclub_helper.build_features_by_columns(df_smoke, self.feature_column_defs)
+        lendingclub_features.build_features_by_columns(df_smoke, self.feature_column_defs)
 
         X = df_smoke[self.feature_columns].values
 
@@ -82,7 +81,7 @@ class LendingClub_Pipeline:
 
     def getAccuracy(self, model, df):
         self.buildFeaturesAndLabels(df)
-        label_columns = lendingclub_helper.getLabelColumns(df)
+        label_columns = lendingclub_features.get_label_columns(df)
 
         X = df[self.feature_columns].values
         y = df[label_columns[0]].values
@@ -92,16 +91,16 @@ class LendingClub_Pipeline:
 
     def buildModel(self, df):
         self.buildFeaturesAndLabels(df)
-        label_columns = lendingclub_helper.getLabelColumns(df)
+        label_columns = lendingclub_features.get_label_columns(df)
 
         X = df[self.feature_columns].values
         y = df[label_columns[0]].values
 
-        model = scikit_helper.trainModel(X, y)
+        model = scikit_helper.train_model(X, y)
         return model
 
     def buildFeaturesAndLabels(self, df):
-        lendingclub_helper.build_features_by_columns(df, self.feature_column_defs)
-        lendingclub_helper.buildCategorialLabel(df, self.labelize_columns[0], lendingclub_helper.parse_loan_status)
+        lendingclub_features.build_features_by_columns(df, self.feature_column_defs)
+        lendingclub_features.build_categorical_label(df, self.labelize_columns[0], lendingclub_features.parse_loan_status)
 
 

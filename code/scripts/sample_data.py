@@ -5,7 +5,7 @@ import sys
 import definitions
 import pandas_helper
 import scikit_helper
-import lendingclub_helper
+import lendingclub_features
 
 import pandas as pd
 
@@ -15,7 +15,7 @@ def main():
 
     # filename = "../data/all_loans.csv"
     filename = "../data/finished_loans.csv"
-    df = pandas_helper.read_data(filename, lendingclub_helper.dtypes)
+    df = pandas_helper.read_data(filename, lendingclub_features.dtypes)
     df.sample(1000).to_csv("sample.csv", index=False)
 
     print("End: " + __file__)

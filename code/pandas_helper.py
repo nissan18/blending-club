@@ -7,7 +7,7 @@ def read_data(filename, dtypes):
     return pd.read_csv(filename, dtype=dtypes)
 
 
-def writeData(df, filename):
+def write_data(df, filename):
     assert(isinstance(df, pd.DataFrame))
     assert(isinstance(filename, str))
 
@@ -21,14 +21,14 @@ def get_columns_by_prefix(df, prefix):
     return df.columns[df.columns.str.startswith(prefix)]
 
 
-def columnHasNull(df, col):
+def column_has_null(df, col):
     assert(isinstance(df, pd.DataFrame))
     assert(isinstance(col, str))
 
     return df[col].isnull().any()
 
 
-def columnsHaveNull(df, cols):
+def columns_have_null(df, cols):
     assert(isinstance(df, pd.DataFrame))
     assert(isinstance(cols, list))
     assert(all([isinstance(c, str) for c in cols]))
@@ -36,31 +36,31 @@ def columnsHaveNull(df, cols):
     return all([columnHasNull(df, c) for c in cols])
 
 
-def getNumericColumns(df):
+def get_numeric_columns(df):
     assert(isinstance(df, pd.DataFrame))
 
     return df.columns[df.dtypes != "O"]  # really non-object columns
 
 
-def getObjectColumns(df):
+def get_object_columns(df):
     assert(isinstance(df, pd.DataFrame))
 
     return df.columns[df.dtypes == "O"]
 
 
-def getNullableColumns(df):
+def get_nullable_columns(df):
     assert(isinstance(df, pd.DataFrame))
 
     return df.columns[df.isna().all()]
 
 
-def getNonNullableColumns(df):
+def get_non_nullable_columns(df):
     assert(isinstance(df, pd.DataFrame))
 
     return df.columns[df.notna().all()]
 
 
-def getOneHotEncoding(df, col):
+def get_one_hot_encoding(df, col):
     assert(isinstance(df, pd.DataFrame))
     assert(isinstance(col, str))
 

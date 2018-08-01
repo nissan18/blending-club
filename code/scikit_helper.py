@@ -6,7 +6,7 @@ from sklearn.externals import joblib
 import numpy as np
 
 
-def trainModel(X, y):
+def train_model(X, y):
     assert(isinstance(X, np.ndarray))
     assert(isinstance(y, np.ndarray))
     assert(len(y.shape) == 1), y.shape
@@ -27,14 +27,14 @@ def get_accuracy(clf, X, y):
     return clf.score(X, y)
 
 
-def saveModel(clf, filename):
+def save_model(clf, filename):
     assert(isinstance(clf, ClassifierMixin))
     assert(isinstance(filename, str))
 
     joblib.dump(clf, filename)
 
 
-def loadModel(filename):
+def load_model(filename):
     assert(isinstance(filename, str))
 
     return joblib.load(filename)

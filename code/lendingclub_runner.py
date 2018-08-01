@@ -4,7 +4,7 @@ import sys
 
 import pandas_helper
 import scikit_helper
-import lendingclub_helper
+import lendingclub_features
 import lendingclub_columns
 import lendingclub_validation
 import pprint as pp

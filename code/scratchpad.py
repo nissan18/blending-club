@@ -2,10 +2,9 @@ import time
 import logging
 import sys
 
-import definitions
 import pandas_helper
 import scikit_helper
-import lendingclub_helper
+import lendingclub_features
 import lendingclub_columns
 import lendingclub_validation
 import pprint as pp
@@ -35,16 +34,16 @@ def main():
     df = pandas_helper.read_data(filename, lendingclub_columns.get_dtypes_by_name())
 
     feature_column_defs = lendingclub_columns.get_columns_by_names(featurize_columns)
-    lendingclub_helper.build_features_by_columns(df, feature_column_defs)
-    lendingclub_helper.buildCategorialLabel(df, labelize_columns[0], lendingclub_helper.parse_loan_status)
+    lendingclub_features.build_features_by_columns(df, feature_column_defs)
+    lendingclub_features.build_categorical_label(df, labelize_columns[0], lendingclub_features.parse_loan_status)
 
-    feature_columns = lendingclub_helper.getFeatureColumns(df)
-    label_columns = lendingclub_helper.getLabelColumns(df)
+    feature_columns = lendingclub_features.getFeatureColumns(df)
+    label_columns = lendingclub_features.get_label_columns(df)
 
     X = df[feature_columns].values
     y = df[label_columns[0]].values
 
-    model = scikit_helper.trainModel(X, y)
+    model = scikit_helper.train_model(X, y)
     print(model)
     print("score: {}".format(model.score(X, y)))
 

@@ -818,7 +818,7 @@ columns = [
     {
         "name": "revol_util",
         "dtype": str,
-        "feature": {"type": "percent" } # buildPercentageFeature(df, "revol_util")
+        "feature": {"type": "percent" } # build_percentage_feature(df, "revol_util")
     },
     {
         "name": "sec_app_chargeoff_within_12_mths",

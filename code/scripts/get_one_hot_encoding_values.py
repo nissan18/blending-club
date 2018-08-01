@@ -1,5 +1,5 @@
 import pandas_helper
-import lendingclub_helper
+import lendingclub_features
 import lendingclub_columns
 import pprint as pp
 
