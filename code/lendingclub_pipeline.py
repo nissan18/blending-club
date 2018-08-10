@@ -26,6 +26,7 @@ class LendingClub_Pipeline:
         # stage data
         self.feature_column_defs = lendingclub_columns.get_columns_by_names(self.featurize_columns)
         self.feature_columns = lendingclub_columns.get_feature_names_by_columns(self.featurize_columns)
+        self.label_columns = ["l_" + col for col in self.labelize_columns]
 
         df_train = pandas_helper.read_data(trainset_filename, lendingclub_columns.get_dtypes_by_name())
         model = self.buildModel(df_train)
@@ -81,23 +82,22 @@ class LendingClub_Pipeline:
 
     def getAccuracy(self, model, df):
         self.buildFeaturesAndLabels(df)
-        label_columns = lendingclub_features.get_label_columns(df)
 
         X = df[self.feature_columns].values
-        y = df[label_columns[0]].values
+        y = df[self.label_columns[0]].values
 
         accuracy = scikit_helper.get_accuracy(model, X, y)
         return accuracy
 
     def buildModel(self, df):
         self.buildFeaturesAndLabels(df)
-        label_columns = lendingclub_features.get_label_columns(df)
 
         X = df[self.feature_columns].values
-        y = df[label_columns[0]].values
+        y = df[self.label_columns[0]].values
 
-        model = scikit_helper.train_model(X, y)
-        return model
+        Model = scikit_helper.models[0]
+        clf = scikit_helper.train_model(X, y, Model)
+        return clf
 
     def buildFeaturesAndLabels(self, df):
         lendingclub_features.build_features_by_columns(df, self.feature_column_defs)
