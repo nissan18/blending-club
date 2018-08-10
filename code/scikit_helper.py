@@ -1,12 +1,15 @@
+from sklearn.externals import joblib
 from sklearn.base import ClassifierMixin
 from sklearn.dummy import DummyClassifier
 from sklearn.svm import SVC, LinearSVC
-from sklearn.externals import joblib
+from sklearn import linear_model
+from sklearn.neighbors.nearest_centroid import NearestCentroid
 
 import numpy as np
 
-models = [LinearSVC]
-# models = [SVC, LinearSVC]
+
+models = [LinearSVC, SVC, linear_model.SGDClassifier, NearestCentroid]
+
 
 def train_model(X, y, Model):  # add params to pass to Model
     assert(isinstance(X, np.ndarray))
@@ -14,7 +17,6 @@ def train_model(X, y, Model):  # add params to pass to Model
     assert(len(y.shape) == 1), y.shape
     assert(X.shape[0] == y.shape[0])
 
-    # clf = SVC()
     clf = Model()
     clf.fit(X, y)
     return clf

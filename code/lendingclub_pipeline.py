@@ -29,12 +29,14 @@ class LendingClub_Pipeline:
         self.label_columns = ["l_" + col for col in self.labelize_columns]
 
         df_train = pandas_helper.read_data(trainset_filename, lendingclub_columns.get_dtypes_by_name())
-        model = self.buildModel(df_train)
-        print(model)
-
-        print("Train accuracy: {}".format(self.getAccuracy(model, df_train)))
         df_test = pandas_helper.read_data(testset_filename, lendingclub_columns.get_dtypes_by_name())
-        print("Test accuracy: {}".format(self.getAccuracy(model, df_test)))
+
+        for Model in scikit_helper.models:
+            model = self.buildModel(df_train, Model)
+            print(model)
+            print("Train accuracy: {}".format(self.getAccuracy(model, df_train)))
+            print("Test accuracy: {}".format(self.getAccuracy(model, df_test)))
+            print()
 
         # self.smokeTest(model)
 
@@ -89,13 +91,12 @@ class LendingClub_Pipeline:
         accuracy = scikit_helper.get_accuracy(model, X, y)
         return accuracy
 
-    def buildModel(self, df):
+    def buildModel(self, df, Model):
         self.buildFeaturesAndLabels(df)
 
         X = df[self.feature_columns].values
         y = df[self.label_columns[0]].values
 
-        Model = scikit_helper.models[0]
         clf = scikit_helper.train_model(X, y, Model)
         return clf
 
